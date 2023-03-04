@@ -1,0 +1,323 @@
+<section > 
+<div class="row">
+    <div class="col-md-6 m-auto">
+        <div class="container mt-5 pl5">
+        <h2 class="text-center">Create new Account</h2>
+         
+        
+        <form action="/signup" method="post">
+         <div class="form-group">
+              <label for="">First Name</label>
+               <div class="text-danger" id="nameError"></div>
+              <input type="text" class="form-control" name="firstname" placeholder="Enter your name" id="firstname" onkeyup="validateName()" required><br>
+            </div>
+
+             <div class="form-group">
+              <label for="">Last Name</label>
+              
+              <input type="text" class="form-control" name="lastname" placeholder="Enter your name" id="lastname" onkeyup="validateName()" required><br>
+            </div>
+
+            <div class="form-group">
+              <label for="">Email address</label>
+              <div class="text-danger" id="email-error"></div>
+              
+              <input type="email" class="form-control" name="email" placeholder="Enter a valid email" id="contact-email" onkeyup="validateEmail()" required><br>
+            </div>
+
+            <div class="form-group">
+              <label for="">Phone number</label>
+              <div class="text-danger"></div>
+              
+              <input type="tel" class="form-control" name="phone" placeholder="xxx-xxx-xxxx" id="phone" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" required><br>
+            </div>
+
+            <div class="form-group">
+          <label for="">password</label>
+          <div class="text-danger" id="passwordError"></div>
+          <input type="password" class="form-control" name="password" placeholder="password" id="loginpassword" onkeyup="validatePassword()" required><br>
+            </div>
+
+            <div class="form-group">
+          <label for="">confirm password</label>
+          <div class="text-danger" id="confirmError"></div>
+          <input type="password" class="form-control" name="password2" placeholder="confirm password" id="password2" onkeyup="confirmPassword()" required><br>
+            </div>
+             
+             <a href="/login" style="text-decoration:none;">Allready have an account ?</a>
+             <button type="submit" class="btn btn-primary float-end" onclick="return validateForm()">Sign up</button>
+              
+        </form>
+        </div>
+    </div>
+</div>
+</section>
+
+<script>
+    var emailerror=document.getElementById('email-error');
+    var passworderror=document.getElementById('passwordError');
+      var nameerror=document.getElementById('nameError');
+      var confirmerror = document.getElementById('confirmError')
+
+
+    function  confirmPassword(){
+      let password1 = document.getElementById("loginpassword").value
+      let password2 = document.getElementById("password2").value
+
+      if(password1!==password2)
+      {
+        confirmerror.innerHTML="password doesnt match"
+        return false
+      }
+      confirmerror.innerHTML=""
+      return true
+    }
+
+
+     function validateName(){
+ let names=document.getElementById("firstname").value;
+
+   if(names.length==0){
+     nameerror.innerHTML=" This Field is Required !";
+     return false;
+  }  
+  if(names.length<4){
+     nameerror.innerHTML=" Minimum 4 characters required  !";
+     return false;
+  } 
+ if(!names.match(/^[a-zA-Z]{4,}(?: [a-zA-Z]*){0,2}$/)){
+     nameerror.innerHTML="Username should not contain any  special characters and numbers !";
+     return false;
+
+  }
+   
+
+  
+  nameerror.innerHTML='';
+  return true;
+ }
+    
+
+    function validateEmail(){
+        var emails=document.getElementById('contact-email').value;
+    
+        if(emails.length==""){
+    
+            emailerror.innerHTML=" this field is required";
+            return false;
+    
+    
+        }
+         if(!emails.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)){
+          emailerror.innerHTML="invalid";
+          return false;
+        }
+    
+        emailerror.innerHTML='';
+        return true;
+    
+    
+    }
+    function validatePassword(){
+ let password=document.getElementById("loginpassword").value;
+
+  if(password.length==0){
+     passworderror.innerHTML=" This Field is Required !";
+     return false;
+  }
+  if(password.length<6){
+     passworderror.innerHTML=" Minimum 6 characters required  !";
+     return false;
+  }
+
+ if(!password.match( /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/ )){
+     passworderror.innerHTML="password must contain atleast 1 special character and number !";
+     return false;
+
+  }
+   
+  
+  passworderror.innerHTML='';
+  return true;
+ }
+  
+ function validateForm(){
+ if(!validateName()|| !validateEmail()||!validatePassword()){
+      
+     return false;
+
+
+ }
+  }
+ </script>
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{!-- <section > 
+<div class="row">
+    <div class="col-md-6 m-auto">
+        <div class="container mt-5 pl5">
+        <h2 class="text-center">Create new Account</h2>
+         
+        
+        <form action="/signup" method="post">
+         <div class="form-group">
+              <label for="">First Name</label>
+               <div class="text-danger" id="nameError"></div>
+              <input type="text" class="form-control" name="firstname" placeholder="Enter your name" id="firstname" onkeyup="validateName()" required><br>
+            </div>
+
+             <div class="form-group">
+              <label for="">Last Name</label>
+              
+              <input type="text" class="form-control" name="lastname" placeholder="Enter your name" id="lastname" onkeyup="validateName()" required><br>
+            </div>
+
+            <div class="form-group">
+              <label for="">Phone number</label>
+              <div class="text-danger"></div>
+              
+              <input type="tel" class="form-control" name="phone" placeholder="xxx-xxx-xxxx" id="phone" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" required><br>
+            </div>
+
+            <div class="form-group">
+              <label for="">Email address</label>
+              <div class="text-danger" id="email-error"></div>
+              
+              <input type="email" class="form-control" name="email" placeholder="Enter a valid email" id="contact-email" onkeyup="validateEmail()" required><br>
+            </div>
+            <div class="form-group">
+          <label for="">password</label>
+          <div class="text-danger" id="passwordError"></div>
+          <input type="password" class="form-control" name="password" placeholder="password" id="loginpassword" onkeyup="validatePassword()" required><br>
+            </div>
+              <div class="form-group">
+          <label for="">confirm password</label>
+          <div class="text-danger" id="passwordError"></div>
+          <input type="password" class="form-control" name="confirm-password" placeholder="password" id="confirm-password" onkeyup="confirmPassword()" required><br>
+            </div>
+             
+             <a href="/login" style="text-decoration:none;">Allready have an account ?</a>
+             <button type="submit" class="btn btn-primary float-end" onclick="return validateForm()">Sign up</button>
+              
+        </form>
+        </div>
+    </div>
+</div>
+</section>
+
+<script>
+    var emailerror=document.getElementById('email-error');
+    var passworderror=document.getElementById('passwordError');
+      var nameerror=document.getElementById('nameError');
+
+
+     function validateName(){
+ let names=document.getElementById("firstname").value;
+
+   if(names.length==0){
+     nameerror.innerHTML=" This Field is Required !";
+     return false;
+  }  
+  if(names.length<4){
+     nameerror.innerHTML=" Minimum 4 characters required  !";
+     return false;
+  } 
+ if(!names.match(/^[a-zA-Z]{4,}(?: [a-zA-Z]*){0,2}$/)){
+     nameerror.innerHTML="Username should not contain any  special characters and numbers !";
+     return false;
+
+  }
+   
+
+  
+  nameerror.innerHTML='';
+  return true;
+ }
+    
+
+    function validateEmail(){
+        var emails=document.getElementById('contact-email').value;
+    
+        if(emails.length==""){
+    
+            emailerror.innerHTML=" this field is required";
+            return false;
+    
+    
+        }
+         if(!emails.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)){
+          emailerror.innerHTML="invalid";
+          return false;
+        }
+    
+        emailerror.innerHTML='';
+        return true;
+    
+    
+    }
+    function validatePassword(){
+ let password=document.getElementById("loginpassword").value;
+
+  if(password.length==0){
+     passworderror.innerHTML=" This Field is Required !";
+     return false;
+  }
+  if(password.length<6){
+     passworderror.innerHTML=" Minimum 6 characters required  !";
+     return false;
+  }
+
+ if(!password.match( /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/ )){
+     passworderror.innerHTML="password must contain atleast 1 special character and number !";
+     return false;
+
+  }
+   
+  
+  passworderror.innerHTML='';
+  return true;
+ }
+
+ 
+   function confirmPassword(){
+
+  var password1 = document.querySelector("loginpassword").value,
+  var password2 = document.querySelector("confirm-password").value;
+  if(password!==password2)
+  {
+    alert("password didn't match")
+    return false
+  }
+  else{
+    return true
+  }
+  passworderror.innerHTML='';
+  return true;
+ }
+  
+ function validateForm(){
+ if(!validateName()|| !validateEmail()||!validatePassword()||!confirmPassword()){
+      
+     return false;
+
+
+ }
+ }
+
+
+  
+ </script>
+                 --}}

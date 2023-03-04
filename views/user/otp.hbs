@@ -1,0 +1,30 @@
+<section class="">
+    <div class="row mt-5">
+        <div class="col-md-6 m-auto">
+            <div class="container mt-5 pl5">
+                <h2 class="text-center"> OTP</h2><br>
+
+                <form action="/otp" method="post" enctype="application/x-www-form-urlencoded">
+
+                    {{#if loginErr}}
+                    <p class="error " style="color: red;">invalid email id or password</p>
+                    {{/if}}
+                    <div class="form-group">
+                        <label for="">Enter OTP</label>
+                       
+                        <input type="number" class="form-control" name="otp" placeholder="xxxxxx" id="otp"  required><br>
+                    </div>
+
+
+                    <div class="">
+                        <button type="submit" class="btn btn-primary  " style="text-align: center;">submit</button>
+                    </div>
+              </form>
+
+            </div>
+
+           
+        </div>
+    </div>
+    
+</section>

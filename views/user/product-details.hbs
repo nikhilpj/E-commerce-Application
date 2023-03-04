@@ -1,0 +1,32 @@
+<script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js" type="application/javascript"></script>
+<section>
+  <div class="container pt-5 mt-4 mb-5">
+
+    <div id="img-container" style="width: 400px;">
+      <img src="/product-images/{{product._id}}.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{product.name}}</h5>
+        <p class="card-text mb-3" style="font-weight: bold;">{{product.description}}</p>
+        <a href="/add-to-cart/{{product._id}}" class="btn btn-primary " style="color: white;">add to cart</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<script>
+  var options = {
+    width: 400,
+    zoomWidth: 500,
+    offset: { vertical: 0, horizontal: 10 }
+  };
+  new ImageZoom(document.getElementById("img-container"), options);
+
+</script>
+
+<style>
+  .container{
+    ;
+  }
+</style>

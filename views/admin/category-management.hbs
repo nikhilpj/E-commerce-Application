@@ -1,0 +1,50 @@
+<section>
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col">
+            <a href="/admin/add-category" class="btn btn-primary">Add Category</a>
+        </div>
+        </div>
+       
+        <table class="table mt-5 table-hover">
+  <thead>
+    <tr>
+      <th scope="col">No</th>
+      <th scope="col">Category</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    
+      {{#each categories}}
+    
+   
+ <th scope="row" class="indexCount" data-value="{{@index}}"></th>
+   
+      <td>{{this.category}}</td>
+   
+      <td>
+        <a href="/admin/edit-category/{{this._id}}" class="btn btn-primary">Edit</a>
+        <a href="/admin/delete-category/{{this._id}}" class="btn btn-danger" onclick="return confirm('are you sure to delete {{this.category}} ? ')">Delete</a>
+      
+      </td>
+     
+    </tr>
+    
+     {{/each}}
+     
+      
+   
+  </tbody>
+</table>
+
+    </div>
+</section>
+<script>
+
+  let indexCount = document.getElementsByClassName('indexCount');
+  for(i=0;i<indexCount.length;i++){
+    indexCount[i].innerHTML = parseInt(indexCount[i].getAttribute('data-value'))+1;
+  }
+</script>

@@ -1,0 +1,89 @@
+<section>
+  <div class="container ">
+
+
+    <table class="table table-hover mt-5 mb-5">
+      <thead>
+        <tr>
+          <th scope="col">No</th>
+          <th scope="col">Date</th>
+          <th scope="col">Address</th>
+          <th scope="col">pincode</th>
+          <th scope="col">Total</th>
+          <th scope="col">Status</th>
+          <th scope="col">Payment Method</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each orders}}
+        <tr>
+
+          <th scope="row" class="indexCount" data-value="{{@index}}"></th>
+          <td>{{this.date}}</td>
+          <td>{{this.deliveryDetails.address}}</td>
+          <td>{{this.deliveryDetails.pincode}}</td>
+          <td>{{this.totalAmount}}</td>
+          <td>{{this.status}}</td>
+          <td>{{this.paymentMethod}}</td>
+          <td><button type="button" class=" button">cancel</button></td>
+
+
+        </tr>
+        {{/each}}
+
+      </tbody>
+    </table>
+
+  </div>
+</section>
+<style>
+  .button {
+    position: relative;
+    background-color: #4CAF50;
+    border: none;
+    font-size: 12px;
+    color: #FFFFFF;
+    padding: 10px;
+    width: 55px;
+
+      {
+        {
+        !-- text-align: center;
+        --
+      }
+    }
+
+    transition-duration: 0.10s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .button:after {
+    content: "";
+    background: #f1f1f1;
+    display: block;
+    position: absolute;
+    padding-top: 300%;
+    padding-left: 350%;
+    margin-left: -20px !important;
+    margin-top: -120%;
+    opacity: 0;
+    transition: all 0.8s
+  }
+
+  .button:active:after {
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s
+  }
+</style>
+<script>
+
+  let indexCount = document.getElementsByClassName('indexCount');
+  for(i=0;i<indexCount.length;i++){
+    indexCount[i].innerHTML = parseInt(indexCount[i].getAttribute('data-value'))+1;
+  }
+</script>

@@ -1,0 +1,51 @@
+
+<section class="">
+<div class="row mt-5">
+    <div class="col-md-6 m-auto">
+        <div class="container mt-5 pl5">
+        <h2 class="text-center">Login</h2><br>
+       
+        <form action="/login" method="post" enctype="application/x-www-form-urlencoded" >
+           
+           {{#if loginErr}}
+           <p class="error " style="color: red;">invalid email id or password</p>
+           {{/if}}
+            <div class="form-group">
+                
+              <label for="">Email address</label><br>
+              <div class="text-danger" id="email-error"></div>
+              <input type="email" class="form-control" name="email"   placeholder="Enter a valid email" id="contact-email"  required><br>
+            </div>
+            <div class="form-group">
+          <label for="">password</label>
+          <div class="text-danger" id="passwordError"></div>
+          <input type="password" class="form-control" name="password"   placeholder="password" id="loginpassword"  required><br>
+            </div>
+
+           
+                      
+          <div class="flex-container">
+            <div>
+               <a href="/signup" class="" style="text-decoration:none ;">Create new account ?</a>
+            </div>
+            <div>
+               <a href="/phone" class="" style="text-decoration:none ; text-align:right">Login with one time OTP</a>
+            </div>
+
+             <div class="">
+              <button type="submit" class="btn btn-primary  " style="text-align: center;">Login</button>
+            </div>
+           
+            </div>
+            
+         </form>
+        </div>
+    </div>
+</div>
+</section> 
+
+
+<style>
+ 
+</style>
+

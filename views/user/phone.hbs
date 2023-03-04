@@ -1,0 +1,30 @@
+<section class="">
+    <div class="row mt-5">
+        <div class="col-md-6 m-auto">
+            <div class="container mt-5 pl5">
+                <h2 class="text-center"> Login</h2><br>
+
+                <form action="/phone" method="post" enctype="application/x-www-form-urlencoded">
+
+                    {{#if loginErr}}
+                    <p class="error " style="color: red;">invalid email id or password</p>
+                    {{/if}}
+                    <div class="form-group">
+                        <label for="">Phone number</label>
+                       
+                        <input type="tel" class="form-control" name="phone" placeholder="xxx-xxx-xxxx" id="phone" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" required><br>
+                    </div>
+
+
+                    <div class="">
+                        <button type="submit" class="btn btn-primary  " style="text-align: center;">submit</button>
+                    </div>
+              </form>
+
+            </div>
+
+           
+        </div>
+    </div>
+    
+</section>

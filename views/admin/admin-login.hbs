@@ -1,0 +1,43 @@
+<section class="loginpage p-2">
+  <div class="container-fluid mt-3">
+    <div class="row outerform ">
+      <div class="row text-center">
+        <div>
+          <h3>Admin Login</h3>
+        </div>
+      </div>
+
+      <div class=" form-div p-4 col-md-6 mb-5  mt-3">
+        {{#if loginErr}}
+        <div class="text-center text-danger">Invalid username and Password !
+        </div>
+        {{/if}}
+        <form  action="/admin/admin-login" method="POST">
+          <div class="mb-3">
+            <label for="username" class="form-label">User name</label>
+            <input type="text" class="form-control" id="username" name="name" required>
+            <div id="nameError" class="form-text text-danger"></div>
+          </div>
+          <div class="mb-3">
+            <label for="Password1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="loginpassword" name="password" required>
+            <div id="passwordError" class="form-text text-danger"></div>
+
+          </div>
+
+          <button type="submit" class="btn btn-primary " onclick="return validateForm()">LOGIN</button>
+        </form>
+      
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .form-div{
+    margin-left: 25%;
+    background-color:#8dc6ff;
+  }
+</style>
+

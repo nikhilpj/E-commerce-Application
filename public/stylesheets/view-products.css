@@ -1,0 +1,26 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #e2e2e2;
+}
+
+.container{
+    width: 940px;
+    margin: 50px auto 0;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.description{
+    margin-right: 50px;
+}
+.xzoom-container #min{
+    width:250px;
+    height :auto;
+}

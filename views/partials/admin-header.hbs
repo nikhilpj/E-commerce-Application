@@ -1,0 +1,66 @@
+<header>
+  <nav class="navbar navbar-expand-lg bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#" style="color: white; ">Admin</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/admin" style="color: white;">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/admin/product-management"
+              style="color: white;">Product-Management</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/admin/category-management"
+              style="color: white;">Category-Management</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/admin/order-management"
+              style="color: white;">Order-Management</a>
+          </li>
+
+
+
+      </div>
+
+
+
+
+      <div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+  {{#if adminLoggedOut}}
+   Account
+   {{else}}
+   Admin
+   {{/if}} 
+  </button>
+  {{#if adminLoggedOut}}
+  {{else}}
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    
+  <a class="dropdown-item" href="/admin/logout">logout</a>
+{{/if}}
+    
+  </ul>
+</div>
+
+
+    </div>
+  </nav>
+</header>
+
+<style>
+  .container-fluid {
+    padding: 10px;
+  }
+
+  .nav-nav {
+    margin-left: 200px;
+    padding-right: 10px;
+  }
+</style>
