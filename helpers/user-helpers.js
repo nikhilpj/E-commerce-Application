@@ -1,13 +1,19 @@
 var db = require('../config/connection')
 var collection = require('../config/collection')
 const bcrypt = require('bcrypt');
+ require('dotenv').config()
 const { response } = require('express');
 const { log } = require('handlebars');
-const { serviceSid } = require('../config/collection');
+const {serviceSid } = require('../config/collection');
 const { accountSid, authToken } = require('../config/collection');
+
 const { resolve } = require('path');
+const { error } = require('console');
 const client = require('twilio')(accountSid,authToken)
 var ObjectId = require("mongodb").ObjectId;
+
+
+
 module.exports = {
     doSignup: (userData) => {
 
@@ -66,6 +72,7 @@ module.exports = {
         })
     },
     addToCart: (proId, userId) => {
+        
         let proObj = {
             item: ObjectId(proId),
             quantity: 1
@@ -287,9 +294,12 @@ module.exports = {
                 status:status,
                 date : new Date().toISOString().slice(0, 10)
              }
+             console.log("product details to show in order",orderObj.products);
              db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response)=>{
                 db.get().collection(collection.CART_COLLECTION).deleteOne({user:ObjectId(order.userId)})
                 console.log(orderObj, "this is orderobj" )
+                console.log("response value after order");
+                console.log("response in ajax ", response)
                 resolve(response)
              })
         })
@@ -298,6 +308,7 @@ module.exports = {
     getCarProductList :(userId)=>{
         return new Promise(async(resolve,reject)=>{
             let cart = await db.get().collection(collection.CART_COLLECTION).findOne({user:ObjectId(userId)})
+            console.log("cart.products ",cart.products);
             resolve(cart.products)
 
         })
@@ -307,7 +318,7 @@ module.exports = {
     getOrderProducts: (userId)=>{
         return new Promise (async(resolve,reject)=>{
             let orders =await db.get().collection(collection.ORDER_COLLECTION).find({userId:ObjectId(userId)}).toArray()
-
+           
               
             console.log("this is aggregating order cart to display ",orders);
             resolve(orders)
@@ -324,6 +335,7 @@ module.exports = {
                 .services(serviceSid)
                  .verifications.create({ to: `+91${userData.phone}`, channel: "sms" })
                 .then((verification) => console.log(verification.status))
+                .catch((error)=>console.log("this is the error while authorizing",error))
               
              response.user = user
              response.status = true  

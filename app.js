@@ -1,5 +1,7 @@
 var createError = require('http-errors');
 var express = require('express');
+
+require('dotenv').config()
 var path = require('path');
 var cookieParser = require('cookie-parser');
 // var logger = require('morgan');
@@ -10,10 +12,19 @@ var collection = require('./config/collection')
 var session = require('express-session')
 
 
+
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
 const { accountSid, authToken } = require('./config/collection');
 const client = require('twilio')(accountSid,authToken)
+const paypal = require('paypal-rest-sdk')
+
+paypal.configure({
+  'mode': 'sandbox', //sandbox or live
+  'client_id': process.env.client_id,
+  'client_secret': process.env.client_secret
+});
+
 
 var app = express();
 

@@ -1,12 +1,18 @@
+  <link href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css">
+  
+      <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.js"></script>
+
 <section>
     <div class="container mt-5">
-        <table class="table table-hover">
+        <table class="table table-hover" id="userTable">
   <thead>
     <tr>
       <th scope="col">No</th>
       <th scope="col">First Name</th>
       <th scope="col">Last Name</th>
       <th scope="col">E-mail</th>
+            <th scope="col">options</th>
+
     </tr>
   </thead>
   <tbody>
@@ -39,4 +45,11 @@
   for(i=0;i<indexCount.length;i++){
     indexCount[i].innerHTML = parseInt(indexCount[i].getAttribute('data-value'))+1;
   }
+</script>
+
+<script>
+
+  $( function () {
+    $('#userTable').DataTable();
+} );
 </script>

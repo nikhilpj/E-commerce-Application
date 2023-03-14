@@ -6,36 +6,47 @@ module.exports = {
     let cartCount = null
 
     cartCount = await userHelpers.getCartCount(req.session.user._id)
-   
+
     let products = await userHelpers.getCartProducts(req.session.user._id)
+
     let totalValue = await userHelpers.getTotalAmount(req.session.user._id)
-    console.log(products,"products after performing aggregation")
-    res.render('user/cart', { products, 'user': req.session.user._id, cartCount ,totalValue})
+    console.log(products, "products after performing aggregation")
+    res.render('user/cart', { products, 'user': req.session.user._id, cartCount, totalValue })
   },
 
-  getViewOrder:async(req,res)=>{
+  getViewOrder: async (req, res) => {
 
-   // let orderCount = null
+    // let orderCount = null
     //orderCount =await userHelpers.getOrderCount(req.session.user._id)
+    // let product = await 
     let orders = await userHelpers.getOrderProducts(req.session.user._id)
-    console.log(orders,"orders after aggregation ")
-    res.render('user/view-orders',{user: req.session.user,orders})
+    console.log(orders, "orders after aggregation ")
+    res.render('user/view-orders', { user: req.session.user, orders })
   },
 
-  getOrder: async(req, res) => {
+  getOrder: async (req, res) => {
     let total = await userHelpers.getTotalAmount(req.session.user._id)
-    res.render('user/order',{ user: req.session.user,total})
+    res.render('user/order', { user: req.session.user, total })
   }
   ,
-  postOrder: async(req,res)=>{
-    let products= await userHelpers.getCarProductList(req.body.userId)
+  postOrder: async (req, res) => {
+    let products = await userHelpers.getCarProductList(req.body.userId)
     let totalPrice = await userHelpers.getTotalAmount(req.body.userId)
-    userHelpers.placeOrder(req.body,products,totalPrice).then((response)=>{
-        res.json({status:true})
+    userHelpers.placeOrder(req.body, products, totalPrice).then((response) => {
+      if (req.body['payment-method'] === 'cod') {
+        res.json({ status: true })
+        console.log("payment method cod");
+      }
+      else {
+        res.json({ status: false })
+        
+
+
+      }
 
     })
     console.log(req.body)
-}
+  }
   ,
 
   getSignup: (req, res) => {
@@ -44,16 +55,15 @@ module.exports = {
   },
   postSignup: (req, res) => {
     userHelpers.doSignup(req.body).then((response) => {
-      console.log("respomse from signup",response);
-      if(response)
-      {
-      req.session.loggedIn = true
-      req.session.user = req.body
-     console.log(req.body.firstname);
-      console.log("user name"+response.user)
-      res.redirect('/')
+      console.log("respomse from signup", response);
+      if (response) {
+        req.session.loggedIn = true
+        req.session.user = req.body
+        console.log(req.body.firstname);
+        console.log("user name" + response.user)
+        res.redirect('/')
       }
-      else{
+      else {
         res.redirect('/signup')
       }
     })
@@ -61,21 +71,21 @@ module.exports = {
   },
 
 
-  getLogin: (req, res) => {   
-     let user = req.session.user
+  getLogin: (req, res) => {
+    let user = req.session.user
 
 
     if (req.session.loggedIn == true) {
       res.redirect('/')
     }
-    else{
-      
+    else {
 
-      res.render('user/login')
-        console.log('!!!!!!!');
-        // res.render('user/login', { loginErr: req.session.loginErr ,user})
-        req.session.loginErr = false
-    
+
+      res.render('user/login', { loginErr: req.session.loginErr })
+      console.log('!!!!!!!');
+      // res.render('user/login', { loginErr: req.session.loginErr ,user})
+      req.session.loginErr = false
+
 
     }
   },
@@ -99,7 +109,8 @@ module.exports = {
     })
 
   },
-  viewAllProducts: async (req, res) => {console.log("*****");
+  viewAllProducts: async (req, res) => {
+    console.log("*****");
     let user = req.session.user
 
     productHelpers.getAllProducts().then((products) => {
@@ -107,9 +118,9 @@ module.exports = {
     })
   },
   viewProductDetails: async (req, res) => {
-  
+
     let product = await productHelpers.getProductDetails(req.params.id)
-    res.render('user/product-details', { product ,user:req.session.user})
+    res.render('user/product-details', { product, user: req.session.user })
   },
   verifyLogin: (req, res, next) => {
     if (req.session.loggedIn)
@@ -121,43 +132,44 @@ module.exports = {
 
   },
   getAddToCart: (req, res) => {
+    console.log("to knoe detail of products", req.params.id);
     userHelpers.addToCart(req.params.id, req.session.user._id).then(() => {
-    
+
       res.redirect('/')
     })
   },
   getDeleteCartProduct: (req, res) => {
     let proId = req.params.id
-    console.log(req.params.id,"this is req.params.id from getdeletecartproduct")
-    console.log("this is req.session.user._id",req.session.user._id)
+    console.log(req.params.id, "this is req.params.id from getdeletecartproduct")
+    console.log("this is req.session.user._id", req.session.user._id)
     userHelpers.deleteCartProduct(proId, req.session.user._id).then((response) => {
       res.redirect('/cart')
     })
 
   },
   getChangeProductQuantity: (req, res) => {
-    console.log(req.body,"req.body of change product quantity");
-    userHelpers.changeProductQuantity(req.body).then(async(response) => {
-       response.total = await userHelpers.getTotalAmount(req.body.user)
+    console.log(req.body, "req.body of change product quantity");
+    userHelpers.changeProductQuantity(req.body).then(async (response) => {
+      response.total = await userHelpers.getTotalAmount(req.body.user)
       res.json(response)
     })
   },
-  getCheckOut : (req,res)=>{
-    res.render('user/checkout',{user:req.session.user})
+  getCheckOut: (req, res) => {
+    res.render('user/checkout', { user: req.session.user })
   },
 
-  getPhone: (req,res)=>{
+  getPhone: (req, res) => {
     res.render('user/phone')
   },
 
-  postPhone:(req,res)=>{
+  postPhone: (req, res) => {
     userHelpers.verifyPhone(req.body).then((response) => {
       // let result = response
-      
+
       if (response.status) {
-        
+
         console.log('user exists ,redirecting to otp page')
-        console.log("user data passed to otp page ",response);
+        console.log("user data passed to otp page ", response);
         req.session.data = response.user
         res.redirect('/otp')
       }
@@ -167,23 +179,22 @@ module.exports = {
     })
 
   },
-  getOtp: (req,res)=>{
+  getOtp: (req, res) => {
     res.render('user/otp')
   },
-  postOtp: (req,res)=>{
+  postOtp: (req, res) => {
     console.log("hey bro how are you");
     console.log("contains data of user");
-    userHelpers.verifyOtp(req.body).then((response)=>{
-      console.log(response,"haha");
-      if(response.status=='approved')
-      {
-         req.session.loggedIn = true
-         req.session.user = req.session.data
-      console.log("login success");
-      
-      res.redirect('/')
+    userHelpers.verifyOtp(req.body).then((response) => {
+      console.log(response, "haha");
+      if (response.status == 'approved') {
+        req.session.loggedIn = true
+        req.session.user = req.session.data
+        console.log("login success");
+
+        res.redirect('/')
       }
-      else{
+      else {
         req.session.destroy()
         res.redirect('/login')
       }
@@ -192,7 +203,7 @@ module.exports = {
 
   }
 
-  
+
 
 
 }

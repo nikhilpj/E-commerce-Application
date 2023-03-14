@@ -184,6 +184,17 @@ getDeleteProduct :(req,res)=>{
         req.session.destroy()
         console.log("logouting from admin");
         res.redirect('/admin/admin-login')
+      },
+
+      getCoupon: (req,res)=>{
+        if(req.session.adminLoggedIn)
+        {
+        res.render('admin/coupon-management',{admin:true})
+        }
+      },
+
+      postCoupon: (req,res)=>{
+        
       }
    
     

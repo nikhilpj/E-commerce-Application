@@ -43,10 +43,12 @@ module.exports = {
     doLogin: (adminData) => {
         return new Promise((resolve, reject) => {
             let data = collection.ADMIN_COLLECTION;
-
+            console.log(adminData);
             if (data.name == adminData.name) {
+                console.log(adminData);
                 bcrypt.compare(adminData.password, data.password).then((loggedIn) => {
-                    console.log(loggedIn)
+                    console.log(loggedIn,"value of logged in")
+                    
                     let response = {};
                     if (loggedIn) {
                         console.log(" admin login success");

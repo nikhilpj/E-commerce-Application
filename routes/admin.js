@@ -58,6 +58,10 @@ router.get('/dashboard',adminController.getDashBoard)
 
 router.get('/order-management',adminController.getAllOrders)
 
+router.get('/coupon-management',adminController.getCoupon)
+
+router.post('/coupon-management',adminController.postCoupon)
+
 
 
 

@@ -206,10 +206,16 @@
 			method: 'post',
 			data: $('#checkout-form1').serialize(),
 			success: (response) => {
+				console.log('respones after placing order',response)
+				
 				alert("order has been placed succesfully")
 				if(response.status)
 				{
 					location.href='/checkout'
+				}
+				else{
+					alert("to paypal interface")
+					location.href='/pay'
 				}
 			},
 

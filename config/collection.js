@@ -10,6 +10,12 @@ module.exports = {
     CART_COLLECTION : 'cart',
     ORDER_COLLECTION : 'order',
     accountSid : 'AC101f06af7b5ed71004230c688cf21254',
-    authToken :'2d883e0b9ba05f68d51d9c32b0944a2f',
-    serviceSid :'VA08e2254ec3e5dc69be6ee7ced07864f0'
+    authToken :'d6c6e7c1974c9d56b8a28c2d6427c664',
+    serviceSid :'VA08e2254ec3e5dc69be6ee7ced07864f0',
+    COUPON_COLLECTION: 'coupon'
+   
+   
+    
+    
+    
 }
