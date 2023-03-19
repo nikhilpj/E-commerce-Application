@@ -1,16 +1,61 @@
-       <section>
-          <div class="container">
-            <div class="row">
-              <div class="col-md-6 mt-5">
-                <h2 class="text-center text-primary mt-2">Add a Coupon</h2>
-                <form action="/admin/coupon-management" method="post" enctype="multipart/form-data">
-                  <label for="">coupon</label>
-                  <input type="text" name="coupon" class="form-control" required>
-                  <label for="">value</label>
-                  <input type="text" name="value" class="form-control" required>
-                  <button type="submit" class="btn btn-success mt-4 mb-4">SUBMIT</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.foundation.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.foundation.min.js"></script>
+
+<section>
+    <div class="container">
+        <div class="row mt-4 mb-3">
+            <div class="col" >
+            <a href="/admin/add-coupon" class="btn btn-primary">Add Coupons</a>
+        </div>
+        </div>
+        <table class="table table-hover  mt-5" id="coupon">
+  <thead>
+    <tr>
+      <th scope="col">No</th>
+      <th scope="col">Coupon</th>
+      <th scope="col">Value</th>
+      <th scope="col">Min-value</th>
+      <th scope="col">Action</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      {{#each coupons}}
+     
+      <th scope="row" class="indexCount" data-value="{{@index}}"></th>
+     
+      <td>{{this.coupon}}</td>
+      <td>{{this.value}}</td>
+      <td>{{this.minvalue}}</td>
+      
+      
+      <td>
+        <a href="/admin/block-coupon/{{this._id}}" class="btn btn-primary">Block</a>
+        
+      
+      </td>
+      
+      
+     
+    </tr>
+     {{/each}}
+   
+  </tbody>
+</table>
+    </div>
+</section>
+<script>
+
+  let indexCount = document.getElementsByClassName('indexCount');
+  for(i=0;i<indexCount.length;i++){
+    indexCount[i].innerHTML = parseInt(indexCount[i].getAttribute('data-value'))+1;
+  }
+
+  $(document).ready(function () {
+    $('#coupon').DataTable();
+  });
+</script>

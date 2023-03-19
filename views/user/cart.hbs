@@ -1,59 +1,69 @@
 <!DOCTYPE html>
 <html lang="zxx">
+
 <head>
 	<!-- Meta Tag -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name='copyright' content=''>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Title Tag  -->
-    <title>Eshop - eCommerce HTML5 Template.</title>
+	<title>Eshop - eCommerce HTML5 Template.</title>
 	<!-- Favicon -->
-	
-	
+
+
 	<!-- StyleSheet -->
-	
+
 	<!-- Bootstrap -->
 	<link rel="stylesheet" href="/eshop/eshop/css/bootstrap.css">
 	<!-- Magnific Popup -->
-    <link rel="stylesheet" href="/eshop/eshop/css/magnific-popup.min.css">
+	<link rel="stylesheet" href="/eshop/eshop/css/magnific-popup.min.css">
 	<!-- Font Awesome -->
-    <link rel="stylesheet" href="/eshop/eshop/css/font-awesome.css">
+	<link rel="stylesheet" href="/eshop/eshop/css/font-awesome.css">
 	<!-- Fancybox -->
 	<link rel="stylesheet" href="/eshop/eshop/css/jquery.fancybox.min.css">
 	<!-- Themify Icons -->
-    <link rel="stylesheet" href="/eshop/eshop/css/themify-icons.css">
+	<link rel="stylesheet" href="/eshop/eshop/css/themify-icons.css">
 	<!-- Nice Select CSS -->
-    <link rel="stylesheet" href="/eshop/eshop/css/niceselect.css">
+	<link rel="stylesheet" href="/eshop/eshop/css/niceselect.css">
 	<!-- Animate CSS -->
-    <link rel="stylesheet" href="/eshop/eshop/css/animate.css">
+	<link rel="stylesheet" href="/eshop/eshop/css/animate.css">
 	<!-- Flex Slider CSS -->
-    <link rel="stylesheet" href="/eshop/eshop/css/flex-slider.min.css">
+	<link rel="stylesheet" href="/eshop/eshop/css/flex-slider.min.css">
 	<!-- Owl Carousel -->
-    <link rel="stylesheet" href="/eshop/eshop/css/owl-carousel.css">
+	<link rel="stylesheet" href="/eshop/eshop/css/owl-carousel.css">
 	<!-- Slicknav -->
-    <link rel="stylesheet" href="/eshop/eshop/css/slicknav.min.css">
-	
+	<link rel="stylesheet" href="/eshop/eshop/css/slicknav.min.css">
+
 	<!-- Eshop StyleSheet -->
 	<link rel="stylesheet" href="/eshop/eshop/css/reset.css">
 	<link rel="stylesheet" href="/eshop/eshop/style.css">
-    <link rel="stylesheet" href="/eshop/eshop/css/responsive.css">
+	<link rel="stylesheet" href="/eshop/eshop/css/responsive.css">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+	<script src="/eshop/eshop/js/popper.min.js"></script>
+	<script src="/eshop/eshop/js/bootstrap.min.js"></script>
+	 <link rel="stylesheet" href=
+"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+    <script src=
+"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js">
+    </script>
+
 </head>
+
 <body class="js">
-	
-	
-		
-		
-			
-							
-						
-				
-					
-	
+
+
+
+
+
+
+
+
+
+
 	<!-- Breadcrumbs -->
 	<div class="breadcrumbs">
 		<div class="container">
@@ -62,9 +72,10 @@
 					<div class="bread-inner">
 						<ul class="bread-list">
 							<li><a href="/">Home<i class="ti-arrow-right"></i></a></li>
-							<li class="active"><a href="blog-single.html">Cart<span class="badge badge-warning">{{cartCount}}</span></a>
- 
-</li>
+							<li class="active"><a href="blog-single.html">Cart<span
+										class="badge badge-warning">{{cartCount}}</span></a>
+
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -72,7 +83,7 @@
 		</div>
 	</div>
 	<!-- End Breadcrumbs -->
-			
+
 	<!-- Shopping Cart -->
 	<div class="shopping-cart section">
 		<div class="container">
@@ -86,48 +97,55 @@
 								<th>NAME</th>
 								<th class="text-center">UNIT PRICE</th>
 								<th class="text-center">QUANTITY</th>
-								<th class="text-center">TOTAL</th> 
+								<th class="text-center">TOTAL</th>
 								<th class="text-center"><i class="ti-trash remove-icon"></i></th>
 							</tr>
 						</thead>
 						<tbody>
 							{{#each products}}
-							
+
 							<tr>
-								
-								<td class="image" data-title="No"><img src="/product-images/{{this.product._id}}.jpg" alt="#"></td>
+
+								<td class="image" data-title="No"><img src="/product-images/{{this.product._id}}.jpg"
+										alt="#"></td>
 								<td class="product-des" data-title="Description">
 									<p class="product-name"><a href="#">{{this.product.name}}</a></p>
-									<p class="product-des">Maboriosam in a tonto nesciung eget  distingy magndapibus.</p>
-									
+									<p class="product-des">Maboriosam in a tonto nesciung eget distingy magndapibus.</p>
+
 								</td>
 								<td class="price" data-title="Price"><span>{{this.product.price}} </span></td>
 								<td class="qty" data-title="Qty">
-									<button class="cart-item-count mr-3" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user}}',-1)">-</button>
+									<button class="cart-item-count mr-3"
+										onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user}}',-1)">-</button>
 									<span id="{{this.product._id}}">{{this.quantity}}</span>
-									<button class="cart-item-count ml-3" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user}}',1)">+</button>
+									<button class="cart-item-count ml-3"
+										onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user}}',1)">+</button>
 									<!-- Input Order -->
 									{{!-- <div class="input-group">
 										<div class="button minus">
-											<button type="button" class="btn btn-primary btn-number" disabled="disabled" data-type="minus"  data-field="quant[1]">
+											<button type="button" class="btn btn-primary btn-number" disabled="disabled"
+												data-type="minus" data-field="quant[1]">
 												<i class="ti-minus"></i>
 											</button>
 										</div>
 										<!-- <input type="text" name="quant[1]" class="input-number"  data-min="1" data-max="100" value="1"> -->
 										<div class="button plus">
-											<button type="button"   class="btn btn-primary btn-number" data-type="plus" data-field="quant[1]">
-											<a href="/add-quantity/{{this._id}}">	<i class="ti-plus"></a></i>
+											<button type="button" class="btn btn-primary btn-number" data-type="plus"
+												data-field="quant[1]">
+												<a href="/add-quantity/{{this._id}}"> <i class="ti-plus"></a></i>
 											</button>
 										</div>
 									</div> --}}
 									<!--/ End Input Order -->
 								</td>
 								<td class="total-amount" data-title="Total"><span>$220.88</span></td>
-								<td class="action" data-title="Remove"><a href="/delete-cart-product/{{this.product._id}}"><i class="ti-trash remove-icon"></i></a></td>
-							
+								<td class="action" data-title="Remove"><a
+										href="/delete-cart-product/{{this.product._id}}"><i
+											class="ti-trash remove-icon"></i></a></td>
+
 							</tr>
 							{{/each}}
-							
+
 						</tbody>
 					</table>
 					<!--/ End Shopping Summery -->
@@ -135,169 +153,189 @@
 			</div>
 			<div class="row">
 				<div class="col-12">
+
 					<!-- Total Amount -->
 					<div class="total-amount">
 						<div class="row">
 							<div class="col-lg-8 col-md-5 col-12">
 								<div class="left">
 									<div class="coupon">
-										<form action="#" target="_blank">
-											<input name="Coupon" placeholder="Enter Your Coupon">
-											<button class="btn">Apply</button>
+										<form action="#" method="post" id="formCoupon" name="formCoupon">
+											<input placeholder="apply a coupon" onclick="applyBtnClick()" id="inputCoupon" readonly/>
+											<button class="btn" >Apply123</button>
+											<div id="couponDisplay" style="display:none;">
+												{{#each coupons}}
+												<div style="cursor:pointer;border:1px solid black; margin-top: 5px;width:fit-content;padding:5px 15px 5px 15px;" onclick="takevalue('{{this.coupon}}','{{this._id}}')">
+													{{this.coupon}}
+													
+												</div>
+												
+												{{/each}}
+											</div>
 										</form>
+
 									</div>
-									<div class="checkbox">
-										<label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox"> Shipping (+10$)</label>
-									</div>
+							
+
+								<div class="checkbox">
+									<label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox">
+										Shipping (+10$)</label>
 								</div>
 							</div>
-							<div class="col-lg-4 col-md-7 col-12">
-								<div class="right">
-									<ul>
-										<li>Cart total<span id="total">Rs {{totalValue}}</span></li>
-										<li>Shipping<span>Free</span></li>
-										<li>You Save<span>$20.00</span></li>
-										<li class="last">You Pay<span>$310.00</span></li>
-									</ul>
-									<div class="button5">
-										<a href="/order" class="btn">order</a>
-										<a href="/" class="btn">Continue shopping</a>
-									</div>
+						</div>
+						<div class="col-lg-4 col-md-7 col-12">
+							<div class="right">
+								<ul>
+									<li>Cart total<span id="total">Rs {{totalValue}}</span></li>
+									<li>Shipping<span>Free</span></li>
+									<li>You Save<span>$20.00</span></li>
+									<li class="last">You Pay<span>$310.00</span></li>
+								</ul>
+								<div class="button5">
+									<a href="/order" class="btn">order</a>
+									<a href="/" class="btn">Continue shopping</a>
 								</div>
 							</div>
 						</div>
 					</div>
-					<!--/ End Total Amount -->
 				</div>
+				<!--/ End Total Amount -->
 			</div>
 		</div>
 	</div>
+	</div>
 	<!--/ End Shopping Cart -->
-			
 
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	<!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="ti-close" aria-hidden="true"></span></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row no-gutters">
-                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                                <!-- Product Slider -->
-									<div class="product-gallery">
-										<div class="quickview-slider-active">
-											<!--
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="ti-close"
+							aria-hidden="true"></span></button>
+				</div>
+				<div class="modal-body">
+					<div class="row no-gutters">
+						<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+							<!-- Product Slider -->
+							<div class="product-gallery">
+								<div class="quickview-slider-active">
+									<!--
 											<div class="single-slider">
 												<img src="images/modal2.jpg" alt="#">
 											</div>
 											<div class="single-slider">
 												<img src="images/modal3.jpg" alt="#">
 											</div>-->
-											<div class="single-slider">
-												<img src="/product-images/{{this._id}}.jpg" alt="#">
-											</div>
+									<div class="single-slider">
+										<img src="/product-images/{{this._id}}.jpg" alt="#">
+									</div>
+								</div>
+							</div>
+							<!-- End Product slider -->
+						</div>
+						<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+							<div class="quickview-content">
+								<h2>{{product.name}}</h2>
+								<div class="quickview-ratting-review">
+									<div class="quickview-ratting-wrap">
+										<div class="quickview-ratting">
+											<i class="yellow fa fa-star"></i>
+											<i class="yellow fa fa-star"></i>
+											<i class="yellow fa fa-star"></i>
+											<i class="yellow fa fa-star"></i>
+											<i class="fa fa-star"></i>
+										</div>
+										<a href="#"> (1 customer review)</a>
+									</div>
+									<div class="quickview-stock">
+										<span><i class="fa fa-check-circle-o"></i> in stock</span>
+									</div>
+								</div>
+								<h3>$29.00</h3>
+								<div class="quickview-peragraph">
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia iste laborum
+										ad impedit pariatur esse optio tempora sint ullam autem deleniti nam in quos qui
+										nemo ipsum numquam.</p>
+								</div>
+								<div class="size">
+									<div class="row">
+										<div class="col-lg-6 col-12">
+											<h5 class="title">Size</h5>
+											<select>
+												<option selected="selected">s</option>
+												<option>m</option>
+												<option>l</option>
+												<option>xl</option>
+											</select>
+										</div>
+										<div class="col-lg-6 col-12">
+											<h5 class="title">Color</h5>
+											<select>
+												<option selected="selected">orange</option>
+												<option>purple</option>
+												<option>black</option>
+												<option>pink</option>
+											</select>
 										</div>
 									</div>
-								<!-- End Product slider -->
-                            </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                                <div class="quickview-content">
-                                    <h2>{{product.name}}</h2>
-                                    <div class="quickview-ratting-review">
-                                        <div class="quickview-ratting-wrap">
-                                            <div class="quickview-ratting">
-                                                <i class="yellow fa fa-star"></i>
-                                                <i class="yellow fa fa-star"></i>
-                                                <i class="yellow fa fa-star"></i>
-                                                <i class="yellow fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                            <a href="#"> (1 customer review)</a>
-                                        </div>
-                                        <div class="quickview-stock">
-                                            <span><i class="fa fa-check-circle-o"></i> in stock</span>
-                                        </div>
-                                    </div>
-                                    <h3>$29.00</h3>
-                                    <div class="quickview-peragraph">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia iste laborum ad impedit pariatur esse optio tempora sint ullam autem deleniti nam in quos qui nemo ipsum numquam.</p>
-                                    </div>
-									<div class="size">
-										<div class="row">
-											<div class="col-lg-6 col-12">
-												<h5 class="title">Size</h5>
-												<select>
-													<option selected="selected">s</option>
-													<option>m</option>
-													<option>l</option>
-													<option>xl</option>
-												</select>
-											</div>
-											<div class="col-lg-6 col-12">
-												<h5 class="title">Color</h5>
-												<select>
-													<option selected="selected">orange</option>
-													<option>purple</option>
-													<option>black</option>
-													<option>pink</option>
-												</select>
-											</div>
+								</div>
+								<div class="quantity">
+									<!-- Input Order -->
+									<div class="input-group">
+										<div class="button minus">
+											<button type="button" class="btn btn-primary btn-number" disabled="disabled"
+												data-type="minus" data-field="quant[1]">
+												<i class="ti-minus"></i>
+											</button>
+										</div>
+										<input type="text" name="quant[1]" class="input-number" data-min="1"
+											data-max="1000" value="1">
+										<div class="button plus">
+											<button type="button" class="btn btn-primary btn-number" data-type="plus"
+												data-field="quant[1]">
+												<i class="ti-plus"></i>
+											</button>
 										</div>
 									</div>
-                                    <div class="quantity">
-										<!-- Input Order -->
-										<div class="input-group">
-											<div class="button minus">
-												<button type="button" class="btn btn-primary btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
-													<i class="ti-minus"></i>
-												</button>
-											</div>
-											<input type="text" name="quant[1]" class="input-number"  data-min="1" data-max="1000" value="1">
-											<div class="button plus">
-												<button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[1]">
-													<i class="ti-plus"></i>
-												</button>
-											</div>
-										</div>
-										<!--/ End Input Order -->
-									</div>
-									<div class="add-to-cart">
-										<a href="#" class="btn">Add to cart</a>
-										<a href="#" class="btn min"><i class="ti-heart"></i></a>
-										<a href="#" class="btn min"><i class="fa fa-compress"></i></a>
-									</div>
-                                    <div class="default-social">
-										<h4 class="share-now">Share:</h4>
-                                        <ul>
-                                            <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                                            <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                                            <li><a class="youtube" href="#"><i class="fa fa-pinterest-p"></i></a></li>
-                                            <li><a class="dribbble" href="#"><i class="fa fa-google-plus"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal end -->
-	
-		
-				
-		
-	
+									<!--/ End Input Order -->
+								</div>
+								<div class="add-to-cart">
+									<a href="#" class="btn">Add to cart</a>
+									<a href="#" class="btn min"><i class="ti-heart"></i></a>
+									<a href="#" class="btn min"><i class="fa fa-compress"></i></a>
+								</div>
+								<div class="default-social">
+									<h4 class="share-now">Share:</h4>
+									<ul>
+										<li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+										<li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+										<li><a class="youtube" href="#"><i class="fa fa-pinterest-p"></i></a></li>
+										<li><a class="dribbble" href="#"><i class="fa fa-google-plus"></i></a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal end -->
+
+
+
+
+
 	<!-- Jquery -->
-    <script src="/eshop/eshop/js/jquery.min.js"></script>
-    <script src="/eshop/eshop/js/jquery-migrate-3.0.0.js"></script>
+	<script src="/eshop/eshop/js/jquery.min.js"></script>
+	<script src="/eshop/eshop/js/jquery-migrate-3.0.0.js"></script>
 	<script src="/eshop/eshop/js/jquery-ui.min.js"></script>
 	<!-- Popper JS -->
 	<script src="/eshop/eshop/js/popper.min.js"></script>
@@ -333,34 +371,55 @@
 	<script src="/eshop/eshop/js/active.js"></script>
 
 	<script>
-		function changeQuantity(cartId,proId,userId,count)
-		{
-			console.log(cartId,proId,count,userId,+" this i s cartid, produt id ,count and userID in changequantity")
-			let quantity= parseInt(document.getElementById(proId).innerHTML)
+		function changeQuantity(cartId, proId, userId, count) {
+			console.log(cartId, proId, count, userId, +" this i s cartid, produt id ,count and userID in changequantity")
+			let quantity = parseInt(document.getElementById(proId).innerHTML)
 			count = parseInt(count)
 			$.ajax({
 				url: '/change-product-quantity',
 				data: {
-					user:userId,
+					user: userId,
 					cart: cartId,
-					product : proId,
-					count:count,
-					quantity:quantity
+					product: proId,
+					count: count,
+					quantity: quantity
 				},
-				method:'post',
-				success:(response)=>{
-					if(response.removeProduct){
+				method: 'post',
+				success: (response) => {
+					if (response.removeProduct) {
 						alert("product removed from cart")
 						location.reload()
-					}else
-					{
-						document.getElementById(proId).innerHTML=quantity+count
-						document.getElementById('total').innerHTML=response.total
+					} else {
+						document.getElementById(proId).innerHTML = quantity + count
+						document.getElementById('total').innerHTML = response.total
 					}
-					
+
 				}
 			})
 		}
+
+
+		const applyBtnClick = function () {
+			let i = 1;
+			return function () {
+				if(i==0){
+					document.getElementById("couponDisplay").style.display='none';
+					i = 1;
+				} else {
+					document.getElementById("couponDisplay").style.display='';
+					i=0;
+				}
+			}
+		}();
+		function takevalue(name,id)
+		{
+			document.getElementById('inputCoupon').value = name;
+			document.getElementById('formCoupon').action = `/apply-coupon/${id}`;
+
+		}
 	</script>
+
+	
 </body>
+
 </html>

@@ -1,9 +1,11 @@
-  <link href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css">
-  
-      <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.foundation.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.foundation.min.js"></script>
 
 <section>
-    <div class="container mt-5">
+    <div class="container mt-5 mb-2">
         <table class="table table-hover" id="userTable">
   <thead>
     <tr>
@@ -26,8 +28,8 @@
       <td>{{this.lastname}}</td>
       <td>{{this.email}}</td>
       <td><a href="/admin/block-user/{{this._id}}" class="btn btn-primary">Block</a></td>
-       <td><a href="/admin/unblock-user/{{this._id}}" class="btn btn-danger"
-       >Unblock</a></td>
+      <a href="/admin/unblock-user/{{this._id}}" class="btn btn-danger"
+       >Unblock</a>
 
     </tr>
    

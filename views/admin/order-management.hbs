@@ -1,20 +1,26 @@
-  <link href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css">
-  
-      <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.foundation.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.foundation.min.js"></script>
+<br>
+{{!-- <br> --}}
 
 <section>
-    <div class="container">
-<table class="table table-hover   mt-5" id="orderTable">
+  <div class="container">
+<table class="table table-hover mt-3" id="orderTable" style="width: 100%; border:1px solid black;">
   <thead>
     <tr>
-      <th scope="col" >No</th>
+      <th scope="col">No</th>
       <th scope="col text-center">Date</th>
-       <th scope="col">Address</th>
+      <th scope="col">Address</th>
       <th scope="col">pincode</th>
       <th scope="col">Status</th>
-      
+
       <th scope="col">Total-Amount</th>
-     
+      <th scope="col">Action</th>
+
+
     </tr>
   </thead>
   <tbody>
@@ -25,26 +31,30 @@
       <td>{{this.deliveryDetails.address}}</td>
       <td>{{this.deliveryDetails.pincode}}</td>
       <td>{{this.status}}</td>
-       
+
       <td>{{this.totalAmount}}</td>
-      {{/each}}
+      <td>
+        <a href="/admin/cancel-order/{{this._id}}" class="btn btn-primary" style="font-size: small;">Cancel</a>
+        <a href="/admin/approve-order/{{this._id}}" class="btn btn-primary" style="font-size: small;">Shipped</a>
+        <a href="/admin/deliverd-order/{{this._id}}" class="btn btn-primary" style="font-size: small;">deliverd</a>
+      </td>
+     
     </tr>
+ {{/each}}
+
     
 
-    <tr>
-    
   </tbody>
 </table>
-    </div>
+</div>
 </section>
 <script>
-    let indexCount = document.getElementsByClassName("indexCount")
-    for(i=0;i<indexCount.length;i++)
-    indexCount[i].innerHTML = parseInt(indexCount[i].getAttribute('data-value'))+1
+  let indexCount = document.getElementsByClassName("indexCount")
+  for (i = 0; i < indexCount.length; i++)
+    indexCount[i].innerHTML = parseInt(indexCount[i].getAttribute('data-value')) + 1
 </script>
 <script>
-  $( function () {
+  $(document).ready(function () {
     $('#orderTable').DataTable();
-} );
+  });
 </script>
-

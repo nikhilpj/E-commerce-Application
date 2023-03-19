@@ -371,7 +371,63 @@ module.exports = {
         
         
 
+    },
+
+    getCancelorder:(orderid)=>{
+
+        return new Promise(async(resolve,reject)=>{
+            db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:ObjectId(orderid)},
+            {
+               $set:{
+                   status : 'cancelled'
+               }
+            }).then((response)=>{
+               console.log("response after updating ordr",response);
+               resolve(response)
+            })
+           })
+    },
+
+    getAllcoupon :()=>{
+        return new Promise(async(resolve,reject)=>{
+          let coupon=await  db.get().collection(collection.COUPON_COLLECTION).find().toArray()
+          resolve(coupon)
+        })
+    },
+
+    getApplyCoupon:(couponid,userid)=>{
+        return new Promise(async(resolve,reject)=>{
+              db.get().collection(collection.USER_COLLECTION).updateOne({_id:ObjectId(userid)},
+              {
+                $set:{
+                    coupon_id : couponid
+                }
+              }).then((response)=>{
+                console.log("response after inserting coupon in user",response);
+                resolve(response)
+            })
+          
+           
+        })
+        
+    },
+    getUser:(userid)=>{
+        return new Promise(async(resolve,reject)=>{
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({_id:ObjectId(userid)})
+            resolve(user)
+        })
+    },
+
+    getCoupondata:(couponid)=>{
+        return new Promise(async(resolve,reject)=>{
+            let coupon = await db.get().collection(collection.COUPON_COLLECTION).findOne({_id:ObjectId(couponid)})
+            resolve(coupon)
+        })
     }
+
+    
+
+   
 
 
 }

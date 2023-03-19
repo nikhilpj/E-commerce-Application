@@ -1,50 +1,60 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.foundation.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.foundation.min.js"></script>
 <section>
-    <div class="container">
-        <div class="row mt-4">
-            <div class="col">
-            <a href="/admin/add-category" class="btn btn-primary">Add Category</a>
-        </div>
-        </div>
-       
-        <table class="table mt-5 table-hover">
-  <thead>
-    <tr>
-      <th scope="col">No</th>
-      <th scope="col">Category</th>
-      <th scope="col">Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-    
-      {{#each categories}}
-    
-   
- <th scope="row" class="indexCount" data-value="{{@index}}"></th>
-   
-      <td>{{this.category}}</td>
-   
-      <td>
-        <a href="/admin/edit-category/{{this._id}}" class="btn btn-primary">Edit</a>
-        <a href="/admin/delete-category/{{this._id}}" class="btn btn-danger" onclick="return confirm('are you sure to delete {{this.category}} ? ')">Delete</a>
-      
-      </td>
-     
-    </tr>
-    
-     {{/each}}
-     
-      
-   
-  </tbody>
-</table>
-
+  <div class="container">
+    <div class="row mt-4 mb-2">
+      <div class="col">
+        <a href="/admin/add-category" class="btn btn-primary">Add Category</a>
+      </div>
     </div>
+
+    <table class="table mt-5  table-hover " id="category-management">
+      <thead>
+        <tr>
+          <th scope="col">No</th>
+          <th scope="col">Category</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+
+          {{#each categories}}
+
+
+          <th scope="row" class="indexCount" data-value="{{@index}}"></th>
+
+          <td>{{this.category}}</td>
+
+          <td>
+            <a href="/admin/edit-category/{{this._id}}" class="btn btn-primary">Edit</a>
+            <a href="/admin/delete-category/{{this._id}}" class="btn btn-danger"
+              onclick="return confirm('are you sure to delete {{this.category}} ? ')">Delete</a>
+
+          </td>
+
+        </tr>
+
+        {{/each}}
+
+
+
+      </tbody>
+    </table>
+
+  </div>
 </section>
 <script>
 
   let indexCount = document.getElementsByClassName('indexCount');
-  for(i=0;i<indexCount.length;i++){
-    indexCount[i].innerHTML = parseInt(indexCount[i].getAttribute('data-value'))+1;
+  for (i = 0; i < indexCount.length; i++) {
+    indexCount[i].innerHTML = parseInt(indexCount[i].getAttribute('data-value')) + 1;
   }
+
+  $(document).ready(function () {
+    $('#category-management').DataTable();
+  });
 </script>

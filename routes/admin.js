@@ -58,10 +58,20 @@ router.get('/dashboard',adminController.getDashBoard)
 
 router.get('/order-management',adminController.getAllOrders)
 
+router.get('/add-coupon',adminController.addCoupon)
+
+
+router.post('/add-coupon',adminController.postAddCoupon)
+
 router.get('/coupon-management',adminController.getCoupon)
 
-router.post('/coupon-management',adminController.postCoupon)
+router.get('/cancel-order/:id',adminController.cancelOrder)
 
+router.get('/approve-order/:id',adminController.approveOrder)
+
+router.get('/deliverd-order/:id',adminController.deliverOrder)
+
+router.get('/chart',adminController.getChart)
 
 
 

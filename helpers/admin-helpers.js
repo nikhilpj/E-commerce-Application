@@ -1,6 +1,7 @@
 var db = require("../config/connection");
 var collection = require("../config/collection");
 var bcrypt = require("bcrypt");
+const { response } = require("../app");
 
 var ObjectId = require("mongodb").ObjectId;
 
@@ -71,7 +72,76 @@ module.exports = {
             let orders = await db.get().collection(collection.ORDER_COLLECTION).find().toArray()
                 resolve(orders)
               }) 
+        },
+
+        getCancelorder:(orderid)=>{
+            return new Promise(async(resolve,reject)=>{
+             db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:ObjectId(orderid)},
+             {
+                $set:{
+                    status : 'cancelled'
+                }
+             }).then((response)=>{
+                console.log("response after updating ordr",response);
+                resolve(response)
+             })
+            })
+        },
+        
+        getApproveOrder :(orderid)=>{
+            return new Promise(async(resolve,reject)=>{
+                db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:ObjectId(orderid)},
+                {
+                   $set:{
+                       status : 'shipped'
+                   }
+                }).then((response)=>{
+                   console.log("response after updating ordr",response);
+                   resolve(response)
+                })
+               })
+
+        },
+        getOrderdeliverd:(orderid)=>{
+            return new Promise(async(resolve,reject)=>{
+                db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:ObjectId(orderid)},
+                {
+                   $set:{
+                       status : 'deliverd'
+                   }
+                }).then((response)=>{
+                   console.log("response after updating ordr",response);
+                   resolve(response)
+                })
+               })
+        },
+        addCoupon :(couponData)=>{
+            return new Promise((resolve,reject)=>{
+                db.get().collection(collection.COUPON_COLLECTION).insertOne(couponData).then((response)=>{
+                    console.log("responesn after adding coupon",response);
+                    console.log("data.insertid",response.insertedId);
+                    resolve(response)
+                })
+            })
+        },
+
+        getCouponlist : ()=>{
+            return new Promise(async(resolve, reject) => {
+                let coupons = await db.get().collection(collection.COUPON_COLLECTION).find().toArray()
+                console.log("listing coupons",coupons);
+                    resolve(coupons)
+                  }) 
+        },
+
+        getchartCount: ()=>{
+            return new Promise(async(resolve, reject) => {
+                let response={}
+                response.cod = await db.get().collection(collection.ORDER_COLLECTION).find({paymentMethod:"cod"}).count()
+                console.log("cout of cod",response.cod);
+               response.on = await db.get().collection(collection.ORDER_COLLECTION).find({paymentMethod:"on"}).count()
+                console.log("cout of on",response.on);
+                resolve(response)
+            })  
         }
-     
     
 }

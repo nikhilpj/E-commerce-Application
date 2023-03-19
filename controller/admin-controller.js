@@ -2,6 +2,7 @@ var productHelpers = require('../helpers/product-helpers')
 var adminHelpers = require('../helpers/admin-helpers');
 var categoryHelpers = require('../helpers/category-helpers');
 const collection = require('../config/collection');
+const { response } = require('../app');
 module.exports={
     getAddProduct : (req,res)=>{
         res.render('admin/add-product',{admin:true})
@@ -186,15 +187,79 @@ getDeleteProduct :(req,res)=>{
         res.redirect('/admin/admin-login')
       },
 
-      getCoupon: (req,res)=>{
+      addCoupon: (req,res)=>{
         if(req.session.adminLoggedIn)
         {
-        res.render('admin/coupon-management',{admin:true})
+        res.render('admin/add-coupon',{admin:true})
         }
       },
 
-      postCoupon: (req,res)=>{
+      postAddCoupon: (req,res)=>{
+
+        adminHelpers.addCoupon(req.body).then((response)=>{
+          res.redirect('/admin/add-coupon')
+
+        })
         
+      },
+
+      cancelOrder :(req,res)=>{
+        if(req.session.adminLoggedIn)
+        {
+        let orderid = req.params.id
+        console.log("orderid to cancel",orderid);
+        adminHelpers.getCancelorder(orderid).then((response)=>{
+          res.redirect('/admin/order-management')
+        })
+
+        }
+
+      },
+
+      approveOrder: (req,res)=>{
+
+        if(req.session.adminLoggedIn)
+        {
+          let orderid =req.params.id
+          adminHelpers.getApproveOrder(orderid).then((response)=>{
+            res.redirect('/admin/order-management')
+          })
+        }
+        
+      },
+
+      deliverOrder: (req,res)=>{
+
+        
+        if(req.session.adminLoggedIn)
+        {
+          let orderid =req.params.id
+          adminHelpers.getOrderdeliverd(orderid).then((response)=>{
+            res.redirect('/admin/order-management')
+          })
+        }
+        
+      },
+
+      getCoupon: (req,res)=>{
+        if(req.session.adminLoggedIn)
+        {
+          adminHelpers.getCouponlist().then((coupons)=>{
+
+          
+          res.render('admin/coupon-management',{admin:true,coupons})
+        })
+        }
+      },
+
+      getChart : (req,res)=>{
+        if(req.session.adminLoggedIn)
+        {
+          adminHelpers.getchartCount().then((response)=>{
+            res.render('admin/chart',{admin:true,response})
+          })
+          
+        }
       }
    
     

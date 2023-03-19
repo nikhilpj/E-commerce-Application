@@ -1,0 +1,31 @@
+<section>
+<div class="container mt-3 mb-2" style="width: 40%; height:20%">
+  <canvas id="myChart"></canvas>
+</div>
+
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: ['cod','on' ],
+      datasets: [{
+        label: '# of Votes',
+        data: [response.cod,response.on],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>

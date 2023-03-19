@@ -27,6 +27,8 @@ module.exports ={
         })
     },
 
+  
+
     getcategoryDetails:(categoryId)=>{
         return new Promise((resolve,reject)=>{
             db.get().collection(collection.CATEGORY_MANAGEMENT).findOne({_id: ObjectId(categoryId)}).then((category)=>{
