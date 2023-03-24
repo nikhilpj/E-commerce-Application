@@ -56,7 +56,7 @@
 					<div class="col-lg-8 col-md-12 col-12">
 						<!-- Top Right -->
 						<div class="right-content">
-							<ul class="list-main">
+							<ul class="list-main" id="li">
 								{{!-- <li><i class="ti-location-pin"></i> Store location</li>
 								<li><i class="ti-alarm-clock"></i> <a href="#">Daily deal</a></li> --}}
 								{{#if user}}
@@ -69,6 +69,11 @@
 								{{else}}
 								<li><i class="ti-user"></i> <a href="#">Account</a></li>
 							{{/if}}
+							{{!-- <li><i class="ti-user"></i> <a href="/profile">profile</a></li>
+							<ul class="dro">
+								<li> <a href="/view-orders">view-orders</a></li>
+								<li> <a href="/add-address">add-address</a></li>
+							</ul> --}}
 							{{#if user}}
 								<li><i class="ti-power-off"></i><a href="/logout">Logout</a></li>
 								{{else}}
@@ -106,7 +111,7 @@
 						<!--/ End Search Form -->
 						<div class="mobile-nav"></div>
 					</div>
-					<div class="col-lg-8 col-md-7 col-12">
+					{{!-- <div class="col-lg-8 col-md-7 col-12">
 						<div class="search-bar-top">
 							<div class="search-bar">
 								<select>
@@ -121,13 +126,16 @@
 								</form>
 							</div>
 						</div>
+					</div> --}}
+					<div class="col-lg-8 col-md-7 col-12">
+						
 					</div>
 					<div class="col-lg-2 col-md-3 col-12">
 						<div class="right-bar">
 							<!-- Search Form -->
-							<div class="sinlge-bar">
+							{{!-- <div class="sinlge-bar">
 								<a href="#" class="single-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-							</div>
+							</div> --}}
 							<div class="sinlge-bar">
 								<a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
 							</div>
@@ -197,16 +205,19 @@
 										<div class="nav-inner">	
 											<ul class="nav main-menu menu navbar-nav">
 													<li class="active"><a href="/">Home</a></li>
-													<li><a href="#">Product</a></li>	
-													<li><a href="/cart">cart</a></li>											
+													{{!-- <li><a href="#prodlist">Product</a></li>	 --}}
+													<li><a href="/cart">cart</a></li>	
+													<li><a href="/wishlist">wishlist</a></li>										
 													{{!-- <li><a href="#">Service</a></li> --}}
-													{{!-- <li><a href="#">Shop<i class="ti-angle-down"></i><span class="new">New</span></a>
+													{{#if user}}
+													<li><a href="#">Profile<i class="ti-angle-down"></i><span class="new">New</span></a>
 														<ul class="dropdown">
-															<li><a href="shop-grid.html">Shop Grid</a></li>
-															<li><a href="/cart">Cart</a></li>
-															<li><a href="#">Checkout</a></li>
+															<li><a href="/view-orders">view-orders</a></li>
+															<li><a href="/add-address">Add-Address</a></li>
+															
 														</ul>
-													</li> --}}
+													</li>
+													{{/if}}
 													{{!-- <li><a href="#">Pages</a></li>									 --}}
 													{{!-- <li><a href="#">Blog<i class="ti-angle-down"></i></a>
 														<ul class="dropdown">
@@ -279,6 +290,30 @@
   </div>
 </nav>
    </header> --}}
+
+   <style>
+	.li li ul.dro li{
+		display: block;
+	}
+	ul.dro{
+		width: 100%;
+		background:#f7941d ;
+		position: absolute;
+		z-index: 999;
+		display: none;
+	}
+	ul.dro li a:hover{
+		background: #f7941d;
+ 
+	}
+	.li li:hover ul.dro{
+		display: block;
+		color:black;
+	}
+	ul.dro:hover{
+		display:block;
+	}
+   </style>
 
    <script>
 function myFunction() {

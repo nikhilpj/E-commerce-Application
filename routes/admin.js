@@ -65,6 +65,10 @@ router.post('/add-coupon',adminController.postAddCoupon)
 
 router.get('/coupon-management',adminController.getCoupon)
 
+router.get('/block-coupon/:id',adminController.blockCoupon)
+
+router.get('/un-block-coupon/:id',adminController.unbockCoupon)
+
 router.get('/cancel-order/:id',adminController.cancelOrder)
 
 router.get('/approve-order/:id',adminController.approveOrder)

@@ -6,13 +6,13 @@
                 <form action="/admin/edit-product/{{product._id}}" enctype="multipart/form-data" method="post">
                     <label for="">Name</label>
                     <input type="text" name="name" class="form-control" value="{{product.name}}">
-                    <label for="category">choose category</label>
-                    <select name="cars" id="cars" class="form-control">
-                    <option value="{{product.category}}">{{product.category}}</option>
-                    <option value="sunglass" >sunglass</option>
-                    <option value="plainglass">plain-glass</option>
-                    <option value="eyelens">eyelens</option>
-                    </select> 
+                         <select class="form-select form-select-sm mt-3" name="category" >
+                  <option hidden disabled selected></option>
+                  {{#each categories}}
+                  <option value="{{this.category}}">{{this.category}}</option>
+                  {{/each}}
+                 </select>
+                   
                     
                     {{!-- <input type="text" name="category" class="form-control" value="{{product.category}}"> --}}
                     <label for="">price</label>

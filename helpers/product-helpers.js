@@ -49,5 +49,25 @@ module.exports ={
                 resolve()
             })
         })
+    },
+
+    searchproducts:(input)=>{
+        return new Promise(async(resolve, reject) => {
+            try{
+
+           
+            db.get().collection(collection.PRODUCT_COLLECTION).createIndex( { name: "text" } )
+            // // await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
+            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find( { $text: { $search:input } } ).toArray()
+            // let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({name:input}).toArray()
+            console.log("search result of ",input," is ",products);
+            resolve(products)
+            }
+            catch(e)
+            {
+                console.log("error is" ,e);
+            }
+        })
     }
+
 }

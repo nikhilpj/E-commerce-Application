@@ -5,7 +5,12 @@ const collection = require('../config/collection');
 const { response } = require('../app');
 module.exports={
     getAddProduct : (req,res)=>{
-        res.render('admin/add-product',{admin:true})
+      categoryHelpers.getAllCategory().then((categories)=>{
+        res.render('admin/add-product',{admin:true,categories})
+      })
+       
+      
+        
     },
     postAddProduct : (req,res)=>{
       if(req.session.adminLoggedIn)
@@ -66,7 +71,9 @@ getDeleteProduct :(req,res)=>{
     getEditProduct :  async (req,res)=>{
         let product =await productHelpers.getProductDetails(req.params.id)
         console.log(product)
-        res.render('admin/edit-product',{product,admin:true})
+        categoryHelpers.getAllCategory().then((categories)=>{
+        res.render('admin/edit-product',{product,admin:true,categories})
+        })
       },
       postEditProduct : (req,res)=>{
         let id =req.params.id
@@ -137,7 +144,7 @@ getDeleteProduct :(req,res)=>{
         console.log(req.params.id,"rttttt")
 
         let category =await categoryHelpers.getcategoryDetails(req.params.id)
-        console.log(category)
+        console.log("full data of all categories ",category)
         res.render('admin/edit-category',{category,admin:true})
       },
       postEditCategory : (req,res)=>{
@@ -240,6 +247,22 @@ getDeleteProduct :(req,res)=>{
         }
         
       },
+
+      blockCoupon:(req,res)=>{
+        let coupon_id = req.params.id
+        adminHelpers.getblockCoupon(coupon_id).then((response)=>{
+          res.redirect('/admin/coupon-management')
+        })
+
+        },
+
+        unbockCoupon:(req,res)=>{
+          let coupon_id = req.params.id
+          adminHelpers.getUnblockcoupon(coupon_id).then((response)=>{
+            res.redirect('/admin/coupon-management')
+          })
+        },
+      
 
       getCoupon: (req,res)=>{
         if(req.session.adminLoggedIn)

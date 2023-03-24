@@ -1,4 +1,7 @@
 <section>
+  <div class="container mt-2 mb-3">
+    <h1 class="text-center">payment statistics</h1>
+  </div>
 <div class="container mt-3 mb-2" style="width: 40%; height:20%">
   <canvas id="myChart"></canvas>
 </div>
@@ -16,7 +19,7 @@
       labels: ['cod','on' ],
       datasets: [{
         label: '# of Votes',
-        data: [response.cod,response.on],
+        data: [{{response.cod}},{{response.on}}],
         borderWidth: 1
       }]
     },

@@ -72,8 +72,8 @@
 					<div class="bread-inner">
 						<ul class="bread-list">
 							<li><a href="/">Home<i class="ti-arrow-right"></i></a></li>
-							<li class="active"><a href="blog-single.html">Cart<span
-										class="badge badge-warning">{{cartCount}}</span></a>
+							<li class="active"><a href="blog-single.html">wishlist<span
+										class="badge badge-warning">{{wishCount}}</span></a>
 
 							</li>
 						</ul>
@@ -96,9 +96,10 @@
 								<th>PRODUCT</th>
 								<th>NAME</th>
 								<th class="text-center">UNIT PRICE</th>
-								<th class="text-center">QUANTITY</th>
+								{{!-- <th class="text-center">QUANTITY</th> --}}
 								<th class="text-center">TOTAL</th>
 								<th class="text-center"><i class="ti-trash remove-icon"></i></th>
+								<th class="text-center">ADD TO CART</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -114,12 +115,12 @@
 
 								</td>
 								<td class="price" data-title="Price"><span>{{this.product.price}} </span></td>
-								<td class="qty" data-title="Qty">
+								{{!-- <td class="qty" data-title="Qty">
 									<button class="cart-item-count mr-3"
-										onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user}}',-1)">-</button>
+										onclick="changeQuantitywish('{{this._id}}','{{this.product._id}}','{{../user}}',-1)">-</button>
 									<span id="{{this.product._id}}">{{this.quantity}}</span>
 									<button class="cart-item-count ml-3"
-										onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user}}',1)">+</button>
+										onclick="changeQuantitywish('{{this._id}}','{{this.product._id}}','{{../user}}',1)">+</button> --}}
 									<!-- Input Order -->
 									{{!-- <div class="input-group">
 										<div class="button minus">
@@ -137,12 +138,14 @@
 										</div>
 									</div> --}}
 									<!--/ End Input Order -->
-								</td>
-								<td class="total-amount" data-title="Total"><span>$220.88</span></td>
+								{{!-- </td> --}}
+								<td class="total-amount" data-title="Total"><span>$220.88 {{totalValue}}</span></td>
 								<td class="action" data-title="Remove"><a
-										href="/delete-cart-product/{{this.product._id}}"><i
+										href="/delete-wish-product/{{this.product._id}}"><i
 											class="ti-trash remove-icon"></i></a></td>
-
+								<td class="action" data-title="Remove"><a
+										href="/move-to-cart/{{this.product._id}}">add to cart
+											</a></td>
 							</tr>
 							{{/each}}
 
@@ -159,25 +162,22 @@
 						<div class="row">
 							<div class="col-lg-8 col-md-5 col-12">
 								<div class="left">
-									<div class="coupon">
+									{{!-- <div class="coupon">
 										<form action="#" method="post" id="formCoupon" name="formCoupon">
 											<input placeholder="apply a coupon" onclick="applyBtnClick()" id="inputCoupon" readonly/>
 											<button class="btn" >Apply123</button>
 											<div id="couponDisplay" style="display:none;">
 												{{#each coupons}}
-												{{#if this.status}}
-												
 												<div style="cursor:pointer;border:1px solid black; margin-top: 5px;width:fit-content;padding:5px 15px 5px 15px;" onclick="takevalue('{{this.coupon}}','{{this._id}}')">
 													{{this.coupon}}
 													
 												</div>
-												 
-												{{/if}}
+												
 												{{/each}}
 											</div>
 										</form>
 
-									</div>
+									</div> --}}
 							
 
 								{{!-- <div class="checkbox">
@@ -188,14 +188,14 @@
 						</div>
 						<div class="col-lg-4 col-md-7 col-12">
 							<div class="right">
-								<ul>
-									<li>Cart total<span id="total">Rs {{totalValue}}   </span></li>
+								{{!-- <ul>
+									<li>Cart total<span id="total">Rs {{totalValue}}</span></li>
 									<li>Shipping<span>Free</span></li>
 									<li>You Save<span>$20.00</span></li>
 									<li class="last">You Pay<span>$310.00</span></li>
-								</ul>
+								</ul> --}}
 								<div class="button5">
-									<a href="/order" class="btn">order</a>
+									{{!-- <a href="/move-to-cart" class="btn">{{wishlistid}}move to cart</a> --}}
 									<a href="/" class="btn">Continue shopping</a>
 								</div>
 							</div>
@@ -374,15 +374,15 @@
 	<script src="/eshop/eshop/js/active.js"></script>
 
 	<script>
-		function changeQuantity(cartId, proId, userId, count) {
-			console.log(cartId, proId, count, userId, +" this i s cartid, produt id ,count and userID in changequantity")
+		function changeQuantitywish(wishId, proId, userId, count) {
+			console.log(wishId, proId, count, userId, +" this i s wishlistid, produt id ,count and userID in changequantitywish")
 			let quantity = parseInt(document.getElementById(proId).innerHTML)
 			count = parseInt(count)
 			$.ajax({
-				url: '/change-product-quantity',
+				url: '/change-wishlist-quantity',
 				data: {
 					user: userId,
-					cart: cartId,
+					wish: wishId,
 					product: proId,
 					count: count,
 					quantity: quantity

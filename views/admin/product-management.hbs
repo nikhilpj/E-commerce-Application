@@ -17,7 +17,7 @@
       <th scope="col">No</th>
       <th scope="col">Product</th>
       <th scope="col">Category</th>
-      <th scope="col">Description</th>
+      <th scope="col" >Description</th>
       <th scope="col">Image</th>
       <th scope="col">Price</th>
       <th scope="col">Action</th>
@@ -30,8 +30,8 @@
       <th scope="row" class="indexCount" data-value="{{@index}}"></th>
      
       <td>{{this.name}}</td>
-      <td>{{this.category}}</td>
-      <td>{{this.description}}</td>
+      <td style="width: 90px;">{{this.category}}</td>
+      <td style="width: 250px;">{{this.description}}</td>
       <td><img style="height: 50px; width: 50px;" src="/product-images/{{this._id}}.jpg"></td>
       <td>{{this.price}}</td>
       <td>

@@ -117,12 +117,37 @@ module.exports = {
         },
         addCoupon :(couponData)=>{
             return new Promise((resolve,reject)=>{
+                couponData.status= true
                 db.get().collection(collection.COUPON_COLLECTION).insertOne(couponData).then((response)=>{
                     console.log("responesn after adding coupon",response);
                     console.log("data.insertid",response.insertedId);
                     resolve(response)
                 })
             })
+        },
+
+        getblockCoupon:(id)=>{
+            return new Promise ((resolve,reject)=>{
+                db.get().collection(collection.COUPON_COLLECTION).updateOne({_id:ObjectId(id)},
+                {
+                    $set:{
+                        status:false
+                    }
+                })
+                resolve(response)
+            })
+        },
+
+        getUnblockcoupon:(id)=>{
+          return new  Promise((resolve,reject)=>{
+            db.get().collection(collection.COUPON_COLLECTION).updateOne({_id:ObjectId(id)},
+            {
+                $set:{
+                    status:true
+                }
+            })
+            resolve(response)
+          })
         },
 
         getCouponlist : ()=>{
@@ -136,7 +161,7 @@ module.exports = {
         getchartCount: ()=>{
             return new Promise(async(resolve, reject) => {
                 let response={}
-                response.cod = await db.get().collection(collection.ORDER_COLLECTION).find({paymentMethod:"cod"}).count()
+               response.cod = await db.get().collection(collection.ORDER_COLLECTION).find({paymentMethod:"cod"}).count()
                 console.log("cout of cod",response.cod);
                response.on = await db.get().collection(collection.ORDER_COLLECTION).find({paymentMethod:"on"}).count()
                 console.log("cout of on",response.on);

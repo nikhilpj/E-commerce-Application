@@ -13,6 +13,8 @@
       <th scope="col">First Name</th>
       <th scope="col">Last Name</th>
       <th scope="col">E-mail</th>
+      <th scope="col">status</th>
+
             <th scope="col">options</th>
 
     </tr>
@@ -27,9 +29,18 @@
       <td>{{this.firstname}}</td>
       <td>{{this.lastname}}</td>
       <td>{{this.email}}</td>
-      <td><a href="/admin/block-user/{{this._id}}" class="btn btn-primary">Block</a></td>
+      <td>{{this.usrstatus}}</td>
+      
+      
+      <td>
+        {{#if this.usrstatus}}
+      <a href="/admin/block-user/{{this._id}}" class="btn btn-primary">block</a>
+         {{else}}
       <a href="/admin/unblock-user/{{this._id}}" class="btn btn-danger"
-       >Unblock</a>
+       >unblock</a>
+       {{/if}}
+       </td>
+       
 
     </tr>
    

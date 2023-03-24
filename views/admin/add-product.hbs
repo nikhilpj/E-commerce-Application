@@ -6,8 +6,14 @@
                 <form action="/admin/add-product" enctype="multipart/form-data" method="post">
                     <label for="">Name</label>
                     <input type="text" name="name" class="form-control">
-                    <label for="">category</label>
-                    <input type="text" name="category" class="form-control">
+                   <label for="">category</label> 
+                    {{!-- <input type="text" name="category" class="form-control">  --}}
+                    <select class="form-select form-select-sm mt-3" name="category" >
+                  <option hidden disabled selected></option>
+                  {{#each categories}}
+                  <option value="{{this.category}}">{{this.category}}</option>
+                  {{/each}}
+                 </select>
                     <label for="">price</label>
                     <input type="text" name="price" class="form-control">
                     <label for="">description</label>

@@ -34,9 +34,11 @@
       
       
       <td>
-        <a href="/admin/block-coupon/{{this._id}}" class="btn btn-primary">Block</a>
-        
-      
+        {{#if this.status}}
+        <a href="/admin/block-coupon/{{this._id}}" class="btn btn-danger">Block</a>
+        {{else}}
+        <a href="/admin/un-block-coupon/{{this._id}}" class="btn btn-primary">Un-Block</a>
+      {{/if}}
       </td>
       
       

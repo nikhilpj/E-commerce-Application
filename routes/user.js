@@ -42,20 +42,38 @@ router.get('/order', userController.verifyLogin, userController.getOrder)
 
 router.post('/order', userController.postOrder)
 
+
 router.get('/add-to-cart/:id', userController.verifyLogin, userController.getAddToCart)
+
+router.get('/move-to-cart/:id',userController.verifyLogin,userController.getMovetoCart)
+
+router.get('/add-to-wishlist/:id',userController.verifyLogin,userController.getAddtoWishlist)
 
 router.get('/delete-cart-product/:id', userController.getDeleteCartProduct)
 
 router.post('/change-product-quantity', userController.verifyLogin, userController.getChangeProductQuantity)
 
+router.post('/change-wishlist-quantity',userController.verifyLogin,userController.getChangewishquantity)
+
 router.get('/checkout', userController.getCheckOut)
 
 router.get('/view-orders', userController.verifyLogin, userController.getViewOrder)
+
+router.get('/add-address',userController.verifyLogin,userController.getAddaddress)
+
+router.post('/add-address',userController.verifyLogin,userController.postAddaddress)
 
 router.get('/cancel-order/:id',userController.verifyLogin,userController.cancelOrder)
 
 router.post('/apply-coupon/:id',userController.applycoupon)
 
+router.get('/wishlist',userController.verifyLogin,userController.getwishlist)
+
+router.get('/delete-wish-product/:id',userController.getDeletewishProduct)
+
+router.post('/search',userController.getsearch)
+
+router.get('/profile',userController.verifyLogin,userController.getProfile)
 
 router.get('/pay',userController.verifyLogin,userController.pay)
     
