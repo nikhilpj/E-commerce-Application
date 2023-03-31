@@ -77,6 +77,8 @@ router.get('/deliverd-order/:id',adminController.deliverOrder)
 
 router.get('/chart',adminController.getChart)
 
+router.get('/category-sales',adminController.getCategorysales)
+
 
 
 module.exports = router;

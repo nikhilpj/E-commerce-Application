@@ -5,11 +5,24 @@ const { ObjectId } = require('mongodb')
 var objectId = require('mongodb').ObjectID
 module.exports ={
     
-    addCategory : (category,callback)=>{
-        console.log(category)
-        db.get().collection('category').insertOne(category).then((data)=>{
+    addCategory : (category)=>{
+        return new Promise((resolve,reject)=>{
+            console.log("this is data in req.body of category field",category)
+            let status = db.get().collection(collection.CATEGORY_MANAGEMENT).findOne({category:category})
+            if(status)
+            {
+                console.log("category exists already");
+                resolve()
+            }
+            else
+            {
+                db.get().collection('category').insertOne(category).then((data)=>{
+            
+                    resolve(data.insertedId)
+            })
+            }
         
-            callback(data.insertedId)
+       
         })
     },
 

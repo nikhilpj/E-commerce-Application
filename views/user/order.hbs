@@ -19,6 +19,27 @@
 </div>
 <!-- End Breadcrumbs -->
 
+{{!-- display address --}}
+
+<section class="main">
+	<div class="main-skills">
+		{{#each user.address}}
+		<div class="card">
+			<i class="fas fa-laptop-code"></i>
+			
+			<p>{{this.address}}</p>
+
+			<p>{{this.pincode}}</p>
+			<a href="/apply-address/{{this.Id}}" class="btn  text-center" style="color: white;width:min-content;height:40px;margin:0 auto;">apply</a> 
+			
+		</div>
+		{{/each}}
+
+
+	</div>
+</section>
+
+
 {{!-- multiple address --}}
 {{!-- <div class="form-address mt-2" style="display: flex; margin:0%"> --}}
 {{!-- <div class="form-check" style="flex-direction: row;padding: 10px;">
@@ -124,23 +145,43 @@
 
 								</div>
 							</div>
-
+							
+							
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="form-group">
 									<label>Address Line 1<span>*</span></label>
-									<input type="text" name="address" placeholder="" required="required">
+									<input type="text" name="address" placeholder="" required="required" 
+									{{#each user.address}}
+									{{#if this.status}}
+									value="{{this.address.[0]}}"
+									{{/if}}
+									{{/each}}>
+							
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="form-group">
 									<label>Address Line 2<span>*</span></label>
-									<input type="text" name="address" placeholder="" required="required">
+									<input type="text" name="address" placeholder="" required="required"
+									{{#each user.address}} 
+									{{#if this.status}}
+									value="{{this.address.[1]}}
+									{{/if}}"
+									{{/each}}>
+							
 								</div>
 							</div>
+							
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="form-group">
 									<label>Postal Code<span>*</span></label>
-									<input type="text" name="post" placeholder="Enter pincode" value="{{user.address.pincode}}" required="required" pattern="^[1-9]{1}[0-9]{2}{0,1}[0-9]{3}">
+									<input type="text" name="post" placeholder="Enter pincode"  required="required" pattern="^[1-9]{1}[0-9]{2}{0,1}[0-9]{3}"
+									{{#each user.address}}
+									{{#if this.status}}
+									value="{{this.pincode}}"
+									{{/if}}
+									{{/each}}>
+								
 								</div>
 								
 							</div>
@@ -177,7 +218,7 @@
 														id="1" type="checkbox">
 													Check Payments</label> --}}
 												<label class="checkbox-inline" for="2"><input name="payment-method" id="2"
-														value="cod" type="checkbox">
+														value="cash-on-delivery" type="checkbox">
 													Cash On Delivery</label>
 												<label class="checkbox-inline" for="3"><input name="payment-method" id="3"
 														type="checkbox">
@@ -227,8 +268,11 @@
 			data: $('#checkout-form1').serialize(),
 			success: (response) => {
 				console.log('respones after placing order',response)
+				if(response.paymentMethod=='cod')
+				{
 				
 				alert("order has been placed succesfully")
+				}
 				if(response.status)
 				{
 					location.href='/checkout'
@@ -241,7 +285,58 @@
 
 		})
 	})
+
+	
 </script>
 </body>
 
 </html>
+
+<style>
+	.main{
+		position: relative;
+		padding: 20px;
+		width: 100%;
+	}
+	.main-top{
+		display: flex;
+		width: 100%;
+	}
+	.main-top i{
+		position: absolute;
+		right: 0;
+		margin: 10px 30px;
+		color: rgb(11, 109, 109);
+		cursor: pointer;
+	}
+	.main-skills{
+		display: flex;
+		margin-top: 20px;
+	}
+	.main-skills .card{
+		width: 25%;
+		margin: 10px;
+		background: #fff;
+		text-align: center;
+		border-radius: 20px;
+		padding: 10px;
+		box-shadow: 0 20px 35px rgba(0,0, 0, 0.1);
+	}
+	.main-skills .card button{
+
+		background: #f7941d;
+		color: #fff;
+		padding: 7px 15px;
+		border-radius: 10px;
+		margin-top: 15px;
+		cursor: pointer;
+
+	}
+	.main-skills .card button:hover{
+		background: rgba(223, 70, 15, 0.856);
+	}
+	.main-skills .card{
+		font-size: 16px;
+		padding: 10px;
+	}
+</style>

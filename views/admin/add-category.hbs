@@ -1,14 +1,20 @@
-       <section>
-          <div class="container">
-            <div class="row">
-              <div class="col-md-6 mt-5">
-                <h2 class="text-center text-primary mt-2">Add a Category</h2>
-                <form action="/admin/add-category" method="post" enctype="multipart/form-data">
-                  <label for="">Category</label>
-                  <input type="text" name="category" class="form-control" required>
-                  <button type="submit" class="btn btn-success mt-4 mb-4">SUBMIT</button>
-                </form>
-              </div>
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mt-5">
+        <h2 class="text-center text-primary mt-2">Add a Category</h2>
+        <form action="/admin/add-category" method="post" enctype="multipart/form-data">
+          <div class=" form-div p-4 col-md-6 mb-5  mt-3">
+            {{#if categoryErr}}
+            <div class="text-center text-danger">category already exists !
             </div>
+            {{/if}}
+            <label for="">Category</label>
+            <input type="text" name="category" class="form-control" required>
+            <button type="submit" class="btn btn-success mt-4 mb-4">SUBMIT</button>
           </div>
-        </section>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,5 +1,5 @@
 <script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js" type="application/javascript"></script>
-<section>
+{{!-- <section>
   <div class="container pt-5 mt-4 mb-5">
 
     <div id="img-container" style="width: 400px;">
@@ -12,7 +12,47 @@
     </div>
 
   </div>
-</section>
+</section> --}}
+<div class="card-wrapper">
+  <div class="card">
+    {{!-- card left --}}
+    <div class="product-imgs" >
+      <div class="img-display" >
+        <div class="img-showcase"  id="img-showcase">
+          <img src="/product-images/{{product._id}}.jpg" alt="">
+        </div>
+      </div>
+      <div class="img-select">
+        <div class="img-item">
+          <a href="#" data-id="1"><img src="" alt=""></a>
+        </div>
+        <div class="img-item">
+          <a href="#" data-id="2"><img src="" alt=""></a>
+        </div>
+        <div class="img-item">
+          <a href="#" data-id="3"><img src="" alt=""></a>
+        </div>
+        <div class="img-item">
+          <a href="#" data-id="4"><img src="" alt=""></a>
+        </div>
+      </div>
+    </div>
+    <div class="product-content">
+      <h2 class="product-title">{{product.name}}</h2>
+      <div class="product-price">
+        <p class="price">Price :<span>{{product.price}}</span></p>
+      </div>
+      <div class="product-detail">
+        <p>{{product.description}}</p>
+        <li>category : {{product.category}}</li>
+      </div>
+      <div class="purchase-info">
+        <a href="/add-to-cart/{{product._id}}" class="btn" >Add to cart</a>
+        <a href="/add-to-wishlist/{{product._id}}" class="btn" >Add to Wishlist</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <script>
@@ -21,12 +61,169 @@
     zoomWidth: 500,
     offset: { vertical: 0, horizontal: 10 }
   };
-  new ImageZoom(document.getElementById("img-container"), options);
+  new ImageZoom(document.getElementById("img-showcase"), options);
 
 </script>
 
 <style>
-  .container{
+  *{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+  }
+  body{
+    line-height: 1.5;
+  }
+  .card-wrapper{
+    max-width: 1110px;
+    margin: 0 auto;
+  }
+  img{
+    width: 100%;
+    display: block;
+  }
+  .img-display{
+    overflow: hidden;
+  }
+  .img-showcase{
+    display: flex;
+    width: 100%;
+    transition: all 0.5s ease;
+  }
+  .img-showcase.img{
+    min-width: 100%;
+  }
+  .img-select{
+    display: flex;
+  }
+  .img-item{
+    margin: 0.3rem;
+  }
+  .img-item:nth-child(1),
+  .img-item:nth-child(2),
+  .img-item:nth-child(3){
+    margin-right: 0;
+  }
+  .img-item:hover{
+    opacity: 0.8;
+  }
+  .product-content{
+    padding: 2rem 1rem;
+  }
+  .product-title{
+    font-size: 3rem;
+    text-transform: capitalize;
+    font-weight: 700;
+    position: relative;
+    color: #12263a;
+    margin: 1rem 0;
+  }
+  .product-title::after{
+    content: "";
+    position: absolute;
+    left:0;
+    bottom: 0;
+    height: 4px;
+    width: 80px;
+    background: #12263a;
+  }
+  .product-link{
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    background: #256eff;
+    color: #fff;
+    padding: 0 0.3rem;
+    transition: all 0.5 ease;
+  }
+  .product-link:hover{
+    opacity: 0.9;
+  }
+  .product-price{
+    margin: 1rem 0;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  .product-detail h2{
+    text-transform: capitalize;
     ;
+    padding-bottom: 0.6rem;
+  }
+  .product-detail p{
+    font-size: 0.9rem;
+    padding: 0.3rem;
+    opacity: 0.8;
+    color: #12263a
+  }
+  .product-detail ul{
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  .product-detail ul li{
+    margin: 0;
+    list-style: none;
+    background-size: 18px;
+    padding-left: 1.7rem;
+    margin: 0.4rem 0;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+  .product-detail ul li span{
+    font-weight: 400;
+  }
+  .purchase-info{
+    margin: 1.5rem 0;
+  }
+  .purchase-info input,
+  .purchase-info .btn{
+    border: 1.5px solid #ddd;
+    border-radius: 25px;
+    text-align: center;
+    padding: 0.45rem 0.8rem;
+    outline: 0;
+    margin-right: 0.2rem;
+    margin-bottom: 1rem;
+  }
+  .purchase-info input{
+    width: 60px;
+  }
+  .purchase-info .btn{
+    cursor: pointer;
+    color: #fff;
+  }
+  .purchase-info .btn:first-of-type{
+    background: #256eff;
+  }
+  .purchase-info .btn:last-of-type{
+    background: #f64749;
+  }
+  .purchase-info .btn:hover{
+    opacity: 0.9;
+  }
+  @media screen and (min-width:992px){
+    .card{
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      grid-gap:1.5rem
+    }
+    .card-wrapper{
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .product-imgs{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+    }
+    .product-content{
+      padding-top: 0;
+    }
   }
 </style>

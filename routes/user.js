@@ -53,6 +53,8 @@ router.get('/delete-cart-product/:id', userController.getDeleteCartProduct)
 
 router.post('/change-product-quantity', userController.verifyLogin, userController.getChangeProductQuantity)
 
+router.get('/apply-address/:id',userController.verifyLogin,userController.getApplyAddress)
+
 router.post('/change-wishlist-quantity',userController.verifyLogin,userController.getChangewishquantity)
 
 router.get('/checkout', userController.getCheckOut)
@@ -73,7 +75,9 @@ router.get('/delete-wish-product/:id',userController.getDeletewishProduct)
 
 router.post('/search',userController.getsearch)
 
-router.get('/profile',userController.verifyLogin,userController.getProfile)
+router.get('/user-profile',userController.verifyLogin,userController.getProfile)
+
+
 
 router.get('/pay',userController.verifyLogin,userController.pay)
     

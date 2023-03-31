@@ -44,12 +44,17 @@ getDeleteProduct :(req,res)=>{
         res.render('admin/admin-login')
     },
     adminCategory : (req,res)=>{
-        res.render('admin/add-category',{admin:true})
+        res.render('admin/add-category',{admin:true,categoryErr: req.session.loginErr})
     },
     postAdminCategory :(req,res)=>{
-        categoryHelpers.addCategory(req.body,(id)=>{
-          res.redirect('/admin/category-management')
-      })
+        categoryHelpers.addCategory(req.body).then(()=>{
+          
+            res.redirect('/admin/category-management')
+          
+          
+        })
+         
+      
       },
     allProducts : (req,res)=>{
         productHelpers.getAllProducts().then((products)=>{
@@ -281,6 +286,17 @@ getDeleteProduct :(req,res)=>{
           adminHelpers.getchartCount().then((response)=>{
             res.render('admin/chart',{admin:true,response})
           })
+          
+        }
+      },
+
+      getCategorysales:async(req,res)=>{
+        if(req.session.adminLoggedIn)
+        {
+          let categorySales = await adminHelpers.Categorysales()
+            console.log("category wise sales is",categorySales);
+            res.render('admin/category-sales',{admin:true,categorySales})
+          
           
         }
       }

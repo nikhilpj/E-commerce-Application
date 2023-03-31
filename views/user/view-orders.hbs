@@ -7,12 +7,12 @@
         <tr>
           <th scope="col">No</th>
           <th scope="col">Date</th>
-          <th scope="col">Address</th>
-          <th scope="col">pincode</th>
+          <th scope="col" style="width: 280px;">Address</th>
+          {{!-- <th scope="col">pincode</th> --}}
           <th scope="col">Total</th>
           <th scope="col">Product </th>
           <th scope="col">Status</th>
-          <th scope="col">Payment Method</th>
+          <th scope="col">invoice</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
@@ -22,17 +22,22 @@
 
           <th scope="row" class="indexCount" data-value="{{@index}}"></th>
           <td>{{this.date}}</td>
-          <td>{{this.deliveryDetails.address}}</td>
-          <td>{{this.deliveryDetails.pincode}}</td>
+          <td>{{this.deliveryDetails.address}} {{this.deliveryDetails.pincode}}</td>
+
           <td>{{this.totalAmount}}</td>
-           <td>{{this.products.item}}</td>
+          <td>
+            {{#each this.products}}
+            {{this.name}} .
+            {{/each}}
+          </td>
           <td>{{this.status}}</td>
-          <td>{{this.paymentMethod}}</td>
-          
-          
-          
+          <td><button onclick="invoice1('{{this.date}}','{{this.deliveryDetails.address}}','{{this.deliveryDetails.pincode}}','{{this.totalAmount}}','{{this.products.[0].name}}','{{this.products.[0].quantity}}','{{this.products.[1].name}}','{{this.products.[1].quantity}}')">
+            Download</button></td>
+
+
+
           <td><a href="/cancel-order/{{this._id}}" class=" button">cancel</button></td>
-         
+
 
         </tr>
         {{/each}}
@@ -88,7 +93,116 @@
 <script>
 
   let indexCount = document.getElementsByClassName('indexCount');
-  for(i=0;i<indexCount.length;i++){
-    indexCount[i].innerHTML = parseInt(indexCount[i].getAttribute('data-value'))+1;
+  for (i = 0; i < indexCount.length; i++) {
+    indexCount[i].innerHTML = parseInt(indexCount[i].getAttribute('data-value')) + 1;
+  }
+</script>
+<script src="https://unpkg.com/easyinvoice/dist/easyinvoice.min.js"></script>
+<script>
+  // Create your invoice! Easy!
+  function invoice1(date,address,pincode,amount,name,quantity,name2,quantity2) {
+    console.log("orders in script", date,address,pincode,amount,name,quantity,name2,quantity2)
+
+    var data = {
+      // Customize enables you to provide your own templates
+      // Please review the documentation for instructions and examples
+      "customize": {
+        //  "template": fs.readFileSync('template.html', 'base64') // Must be base64 encoded html 
+      },
+      "images": {
+        // The logo on top of your invoice
+        "logo": "https://public.easyinvoice.cloud/img/logo_en_original.png",
+        // The invoice background
+        "background": "https://public.easyinvoice.cloud/img/watermark-draft.jpg"
+      },
+      // Your own data
+      "sender": {
+        "company": "E-shop",
+        "address": "Banerji Road, Ernakulam",
+        "zip": "678345",
+        "city": "kochi",
+        "country": "India"
+        //"custom1": "custom value 1",
+        //"custom2": "custom value 2",
+        //"custom3": "custom value 3"
+      },
+      // Your recipient
+      "client": {
+        "company": "Client Corp",
+        "address": address,
+        "zip": pincode,
+        "state": "kerala",
+        "country": "India"
+        // "custom1": "custom value 1",
+        // "custom2": "custom value 2",
+        // "custom3": "custom value 3"
+      },
+      "information": {
+        // Invoice number
+        "number": "2021.0001",
+        // Invoice data
+        "date": date,
+        // Invoice due date
+        "due-date": "2-4-2023"
+      },
+      // The products you would like to see on your invoice
+      // Total values are being calculated automatically
+      "products": [
+        {
+          "quantity":quantity,
+          "description":name ,
+          "tax-rate": 6,
+          "price": 10
+        },
+        {
+          "quantity": quantity2,
+          "description": name2,
+          "tax-rate": 6,
+          "price": 12.34
+        },
+        {
+          "quantity": 4.5678,
+          "description": "Product 3",
+          "tax-rate": 21,
+          "price": 6324.453456
+        }
+      ],
+      // The message you would like to display on the bottom of your invoice
+      "bottom-notice": "Kindly pay your invoice within 15 days.",
+      // Settings to customize your invoice
+      "settings": {
+        "currency": "INR", // See documentation 'Locales and Currency' for more info. Leave empty for no currency.
+        // "locale": "nl-NL", // Defaults to en-US, used for number formatting (See documentation 'Locales and Currency')        
+        // "margin-top": 25, // Defaults to '25'
+        // "margin-right": 25, // Defaults to '25'
+        // "margin-left": 25, // Defaults to '25'
+        // "margin-bottom": 25, // Defaults to '25'
+        // "format": "A4", // Defaults to A4, options: A3, A4, A5, Legal, Letter, Tabloid
+        // "height": "1000px", // allowed units: mm, cm, in, px
+        // "width": "500px", // allowed units: mm, cm, in, px
+        // "orientation": "landscape", // portrait or landscape, defaults to portrait
+      },
+      // Translate your invoice to your preferred language
+      "translate": {
+        // "invoice": "FACTUUR",  // Default to 'INVOICE'
+        // "number": "Nummer", // Defaults to 'Number'
+        // "date": "Datum", // Default to 'Date'
+        // "due-date": "Verloopdatum", // Defaults to 'Due Date'
+        // "subtotal": "Subtotaal", // Defaults to 'Subtotal'
+        // "products": "Producten", // Defaults to 'Products'
+        // "quantity": "Aantal", // Default to 'Quantity'
+        // "price": "Prijs", // Defaults to 'Price'
+        // "product-total": "Totaal", // Defaults to 'Total'
+        // "total": "Totaal", // Defaults to 'Total'
+        // "vat": "btw" // Defaults to 'vat'
+      },
+    };
+    easyinvoice.createInvoice(data, function (result) {
+      // The response will contain a base64 encoded PDF file
+      easyinvoice.download('myInvoice.pdf', result.pdf);
+
+      // Now this result can be used to save, download or render your invoice
+      // Please review the documentation below on how to do this
+    });
   }
 </script>

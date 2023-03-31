@@ -13,8 +13,8 @@
     <tr>
       <th scope="col">No</th>
       <th scope="col text-center">Date</th>
-      <th scope="col">Address</th>
-      <th scope="col">pincode</th>
+      <th scope="col" style="width: 250px;">Address</th>
+       <th scope="col" style="width: 150px;">Products</th>
       <th scope="col">Status</th>
 
       <th scope="col">Total-Amount</th>
@@ -28,8 +28,12 @@
     <tr>
       <th scope="row" class="indexCount" data-value="{{@index}}"></th>
       <td>{{this.date}}</td>
-      <td>{{this.deliveryDetails.address}}</td>
-      <td>{{this.deliveryDetails.pincode}}</td>
+      <td>{{this.deliveryDetails.address}} {{this.deliveryDetails.pincode}}</td>
+       <td>
+          {{#each this.products}}
+           {{this.name}} .
+           {{/each}}
+           </td>
       <td>{{this.status}}</td>
 
       <td>{{this.totalAmount}}</td>

@@ -6,10 +6,10 @@
                 <form action="/admin/edit-product/{{product._id}}" enctype="multipart/form-data" method="post">
                     <label for="">Name</label>
                     <input type="text" name="name" class="form-control" value="{{product.name}}">
-                         <select class="form-select form-select-sm mt-3" name="category" >
-                  <option hidden disabled selected></option>
+                         <select class="form-select form-select-sm mt-3" name="category" id="category" value="{{categories.category}}">
+                  <option value=""  selected disabled hidden>choose here</option>
                   {{#each categories}}
-                  <option value="{{this.category}}">{{this.category}}</option>
+                  <option value="{{this.category}}" >{{this.category}}</option>
                   {{/each}}
                  </select>
                    
