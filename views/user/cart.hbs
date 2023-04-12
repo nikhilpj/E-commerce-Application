@@ -97,7 +97,7 @@
 								<th>NAME</th>
 								<th class="text-center">UNIT PRICE</th>
 								<th class="text-center">QUANTITY</th>
-								<th class="text-center">TOTAL</th>
+								{{!-- <th class="text-center">TOTAL</th> --}}
 								<th class="text-center"><i class="ti-trash remove-icon"></i></th>
 							</tr>
 						</thead>
@@ -138,7 +138,7 @@
 									</div> --}}
 									<!--/ End Input Order -->
 								</td>
-								<td class="total-amount" data-title="Total"><span>$220.88</span></td>
+								{{!-- <td class="total-amount" data-title="Total"><span>{{totalValue}}</span></td> --}}
 								<td class="action" data-title="Remove"><a
 										href="/delete-cart-product/{{this.product._id}}"><i
 											class="ti-trash remove-icon"></i></a></td>
@@ -375,7 +375,7 @@
 
 	<script>
 		function changeQuantity(cartId, proId, userId, count) {
-			console.log(cartId, proId, count, userId, +" this i s cartid, produt id ,count and userID in changequantity")
+			console.log(cartId, proId, count, userId, +" this i s cartid,stockno, produt id ,count and userID in changequantity")
 			let quantity = parseInt(document.getElementById(proId).innerHTML)
 			count = parseInt(count)
 			$.ajax({
@@ -385,16 +385,29 @@
 					cart: cartId,
 					product: proId,
 					count: count,
-					quantity: quantity
+					quantity: quantity,
+					
 				},
 				method: 'post',
 				success: (response) => {
+					
 					if (response.removeProduct) {
 						alert("product removed from cart")
 						location.reload()
-					} else {
-						document.getElementById(proId).innerHTML = quantity + count
+					}
+					{{!-- else if(req.session.verifystockss){
+						alert("stock empty")
+						location.reload()
+					} --}}
+					
+					 else {
+						
+						
+							document.getElementById(proId).innerHTML = quantity + count
 						document.getElementById('total').innerHTML = response.total
+						
+						
+						
 					}
 
 				}

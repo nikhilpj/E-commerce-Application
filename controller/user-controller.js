@@ -1,4 +1,7 @@
 const { response } = require('../app');
+const cartHelpers = require('../helpers/cart-helpers');
+const categoryHelpers = require('../helpers/category-helpers');
+const orderHelpers = require('../helpers/order-helpers');
 const productHelpers = require('../helpers/product-helpers');
 const userHelpers = require('../helpers/user-helpers')
 const paypal = require('paypal-rest-sdk')
@@ -12,12 +15,12 @@ module.exports = {
   getCart: async (req, res) => {
     let cartCount = null
 
-    cartCount = await userHelpers.getCartCount(req.session.user._id)
+    cartCount = await cartHelpers.getCartCount(req.session.user._id)
 
-    let products = await userHelpers.getCartProducts(req.session.user._id)
+    let products = await cartHelpers.getCartProducts(req.session.user._id)
 
-    let totalValue = await userHelpers.getTotalAmount(req.session.user._id)
-    let coupons = await userHelpers.getAllcoupon()
+    let totalValue = await cartHelpers.getTotalAmount(req.session.user._id)
+    let coupons = await cartHelpers.getAllcoupon()
     // console.log("coupons to show in cart ", coupons);
     // console.log(products, "products after performing aggregation")
     res.render('user/cart', { products, 'user': req.session.user._id, cartCount, totalValue, coupons })
@@ -28,7 +31,7 @@ module.exports = {
     // let orderCount = null
     //orderCount =await userHelpers.getOrderCount(req.session.user._id)
     // let product = await 
-    let orders = await userHelpers.getOrderProducts(req.session.user._id)
+    let orders = await orderHelpers.getOrderProducts(req.session.user._id)
     console.log(orders, "payment method to know to display orders ")
     res.render('user/view-orders', { user: req.session.user, orders })
   },
@@ -43,7 +46,7 @@ module.exports = {
   },
 
   getAddaddress: async (req, res) => {
-    let orders = await userHelpers.getOrderProducts(req.session.user._id)
+    let orders = await orderHelpers.getOrderProducts(req.session.user._id)
 
     res.render('user/add-address', { user: req.session.user, orders })
 
@@ -55,7 +58,7 @@ module.exports = {
     userid = req.session.user._id
     userHelpers.addAddress(req.body, userid).then(() => {
       console.log("response after adding address");
-      res.redirect('/add-address')
+      res.redirect('/order')
     })
   },
 
@@ -65,10 +68,10 @@ module.exports = {
   getOrder: async (req, res) => {
     let user = await userHelpers.getUser(req.session.user._id)
     // console.log("user data in order page ",user);
-    let total = await userHelpers.getTotalAmount(req.session.user._id)
+    let total = await cartHelpers.getTotalAmount(req.session.user._id)
     if(user.coupon_status)
     {
-      let couponData = await userHelpers.getCoupondata(user.coupon_id)
+      let couponData = await orderHelpers.getCoupondata(user.coupon_id)
       total = total - (total * couponData.value)/100
     }
     
@@ -76,18 +79,18 @@ module.exports = {
   }
   ,
   postOrder: async (req, res) => {
-    let products = await userHelpers.getCarProductList(req.body.userId)
-    let totalPrice = await userHelpers.getTotalAmount(req.body.userId)
+    let products = await cartHelpers.getCarProductList(req.body.userId)
+    let totalPrice = await cartHelpers.getTotalAmount(req.body.userId)
     //apply coupon here
     let userid = req.session.user._id
     let user = await userHelpers.getUser(userid)
     if (user.coupon_status == true) {
-      let couponData = await userHelpers.getCoupondata(user.coupon_id)
+      let couponData = await orderHelpers.getCoupondata(user.coupon_id)
       totalPrice = totalPrice - (totalPrice * couponData.value) / 100
       console.log("discount amount ", totalPrice);
 
       console.log("coupon of user", user);
-      userHelpers.postApplycoupon(userid)
+      orderHelpers.postApplycoupon(userid)
     }
     if (req.body['payment-method'] !== 'cash-on-delivery') {
       console.log("payment method is not cod so storing order data in session");
@@ -95,7 +98,7 @@ module.exports = {
       // console.log("this is session data of order", req.session.order);
     }
 
-    userHelpers.placeOrder(req.body, products, totalPrice, req.session.order).then((response) => {
+    orderHelpers.placeOrder(req.body, products, totalPrice, req.session.order).then((response) => {
       if (req.body['payment-method'] === 'cash-on-delivery') {
         res.json({ status: true })
         console.log("payment method cod");
@@ -175,9 +178,10 @@ module.exports = {
   viewAllProducts: async (req, res) => {
     console.log("*****");
     let user = req.session.user
-
+    let categories= await userHelpers.getAllcatergories()
+    console.log("categories for filter",categories);
     productHelpers.getAllProducts().then((products) => {
-      res.render('user/main', { products, user })
+      res.render('user/main', { products, user ,categories})
     })
   },
   viewProductDetails: async (req, res) => {
@@ -194,12 +198,24 @@ module.exports = {
 
 
   },
-  getAddToCart: (req, res) => {
+  getAddToCart: async(req, res) => {
+
     console.log("to knoe detail of products", req.params.id);
-    userHelpers.addToCart(req.params.id, req.session.user._id).then(() => {
+    let product = await productHelpers.getProductDetails(req.params.id)
+    console.log("details of produt to verify stock",product.stock);
+    if(product.stock<=0)
+    {
+      
+    }
+    else
+    {
+
+    
+    cartHelpers.addToCart(req.params.id, req.session.user._id).then(() => {
 
       res.redirect('/')
     })
+  }
   },
 
   getMovetoCart: (req, res) => {
@@ -214,15 +230,16 @@ module.exports = {
     let proId = req.params.id
     console.log(req.params.id, "this is req.params.id from getdeletecartproduct")
     console.log("this is req.session.user._id", req.session.user._id)
-    userHelpers.deleteCartProduct(proId, req.session.user._id).then((response) => {
+    cartHelpers.deleteCartProduct(proId, req.session.user._id).then((response) => {
       res.redirect('/cart')
     })
 
   },
   getChangeProductQuantity: (req, res) => {
     console.log(req.body, "req.body of change product quantity");
-    userHelpers.changeProductQuantity(req.body).then(async (response) => {
-      response.total = await userHelpers.getTotalAmount(req.body.user)
+    cartHelpers.changeProductQuantity(req.body).then(async (response) => {
+      response.total = await cartHelpers.getTotalAmount(req.body.user)
+      console.log("response in usercontroller",response);
       res.json(response)
     })
   },
@@ -230,7 +247,7 @@ module.exports = {
   getApplyAddress:(req,res)=>{
     let id = req.params.id
     console.log(id,"id of address");
-    userHelpers.applyAddress(req,id).then(()=>{
+    orderHelpers.applyAddress(req,id).then(()=>{
       res.redirect('/order')
     }).catch((e)=>{
       console.log("error is ",e)
@@ -303,7 +320,7 @@ module.exports = {
 
   cancelOrder: (req, res) => {
     let orderid = req.params.id
-    userHelpers.getCancelorder(orderid).then((response) => {
+    orderHelpers.getCancelorder(orderid).then((response) => {
       res.redirect('/view-orders')
     })
   },
@@ -313,15 +330,15 @@ module.exports = {
     //   'sdfhdskjfgdskjfgdskgfksgfskjgfsjgfskjfgskfgskgfskgfksfhsdkgfskfgskfgskgfskfgkfgsk');
     console.log("id: " + req.params.id);
     console.log("user data ", req.session.user._id);
-    cartCount = await userHelpers.getCartCount(req.session.user._id)
+    cartCount = await cartHelpers.getCartCount(req.session.user._id)
 
-    let products = await userHelpers.getCartProducts(req.session.user._id)
-    let totalValue = await userHelpers.getTotalAmount(req.session.user._id)
-    let couponData = await userHelpers.getCoupondata(req.params.id)
+    let products = await cartHelpers.getCartProducts(req.session.user._id)
+    let totalValue = await cartHelpers.getTotalAmount(req.session.user._id)
+    let couponData = await orderHelpers.getCoupondata(req.params.id)
     let discountValue =  (totalValue * couponData.value)/100
     totalValue = totalValue - discountValue
     let couponid = req.params.id
-    userHelpers.getApplyCoupon(couponid, req.session.user._id).then(() => {
+    cartHelpers.getApplyCoupon(couponid, req.session.user._id).then(() => {
       
       console.log("redirecting to cart after inserting coupon in user colleciton");
       
@@ -374,6 +391,15 @@ module.exports = {
     })
   },
 
+  getCategoryfilter:(req,res)=>{
+    console.log("this is the id of category",req.params.id);
+    let id = req.params.id
+    categoryHelpers.CategoryFilter(id).then((products)=>{
+      res.render('user/main',{products,'user': req.session.user._id})
+    })
+
+  },
+
   pay: (req, res) => {
     console.log("session data in payment ", req.session);
     let userid = req.session.user._id
@@ -382,7 +408,7 @@ module.exports = {
 
   postpay: async (req, res) => {
 
-    let orders = await userHelpers.getOrderProducts(req.session.user._id)
+    // let orders = await userHelpers.getOrderProducts(req.session.user._id)
     // console.log("orders in payment ",orders);
 
     const create_payment_json = {
@@ -431,6 +457,7 @@ module.exports = {
   successpay: (req, res) => {
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
+    console.log("session data in successpay",req.session)
 
 
     const execute_payment_json = {
@@ -450,10 +477,13 @@ module.exports = {
       } else {
         console.log(JSON.stringify(payment));
 
-        userHelpers.getCarProductList(req.session.user._id).then((products) => {
-          userHelpers.getTotalAmount(req.session.user._id).then((totalPrice) => {
-            userHelpers.placePaypal(req, products, totalPrice).then(() => {
+        cartHelpers.getCarProductList(req.session.user._id).then((products) => {
+          cartHelpers.getTotalAmount(req.session.user._id).then((totalPrice) => {
+ 
+            orderHelpers.placePaypal(req, products, totalPrice).then(() => {
               // res.send('Success');
+              // console.log("productarr is ",productArr);
+             
               res.render('user/success')
             }).catch((e) => {
               console.log(e);

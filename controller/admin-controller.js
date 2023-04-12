@@ -1,3 +1,4 @@
+
 var productHelpers = require('../helpers/product-helpers')
 var adminHelpers = require('../helpers/admin-helpers');
 var categoryHelpers = require('../helpers/category-helpers');
@@ -15,13 +16,13 @@ module.exports={
     postAddProduct : (req,res)=>{
       if(req.session.adminLoggedIn)
       {
-        console.log(req.body)
-     console.log(req.files.image)
+        console.log(req.body,"this is req.body in add product")
+     console.log("next",req.files.image,"this is req.files.image")
     productHelpers.addProduct(req.body,(id)=>{
     let Image = req.files.image
     Image.mv('./public/product-images/'+id+'.jpg',(err,done)=>{
       if(!err)
-      res.redirect('/admin/add-product')
+      res.redirect('/admin/product-management')
       else
       console.log(err)
     })
@@ -35,6 +36,7 @@ res.redirect('/admin/admin-login')
 getDeleteProduct :(req,res)=>{
     let proId = req.params.id
     productHelpers.deleteProduct(proId).then((response)=>{
+      
       res.redirect('/admin/product-management')
     })
   
@@ -85,6 +87,7 @@ getDeleteProduct :(req,res)=>{
         productHelpers.updateProduct(req.params.id,req.body).then(()=>{
           console.log('hao')
           res.redirect('/admin/product-management')
+         
           if(req.files.image)
           {
             let Image = req.files.image
@@ -290,12 +293,31 @@ getDeleteProduct :(req,res)=>{
         }
       },
 
+      getWeeklySales:(req,res)=>{
+        if(req.session.adminLoggedIn)
+        {
+          
+         
+            // console.log("weekly sales = ",sales)
+            res.render('admin/weekly-sales',{admin:true})
+          }
+        }
+      ,
+
+      postWeeklySales:async(req,res)=>{
+        console.log("data in choosing date for weekly sales",req.body)
+        let orders = await adminHelpers.Orders(req.body)
+        let totalSales=  await adminHelpers.weeklySales(req.body)
+        console.log("total is ",totalSales)
+        res.render('admin/weekly-sales',{admin:true,orders,totalSales})
+      },
+
       getCategorysales:async(req,res)=>{
         if(req.session.adminLoggedIn)
         {
           let categorySales = await adminHelpers.Categorysales()
             console.log("category wise sales is",categorySales);
-            res.render('admin/category-sales',{admin:true,categorySales})
+            res.render('admin/sales',{admin:true,categorySales})
           
           
         }

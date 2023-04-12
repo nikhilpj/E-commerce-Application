@@ -97,6 +97,9 @@
 	<div class="product-area section">
 		<div class="container">
 			<div class="row">
+				{{!-- {{#if categories}} 
+							<h3>category is{{this.category}}</h3>
+							{{/if}} --}}
 				<div class="col-12">
 					<div class="section-title">
 						<h2>products</h2>
@@ -124,7 +127,8 @@
 							</ul>
 							<!--/ End Tab Nav -->
 						</div> --}}
-						 <div class="tab-content" id="myTabContent"> 
+						 <div class="tab-content" id="myTabContent">
+							
 							<!-- Start Single Tab -->
 							 <div class="tab-pane fade show active" id="man" role="tabpanel">
 								<div class="tab-single" id="prodlist"> 
@@ -146,13 +150,13 @@
 																	class=" ti-eye"></i><span>Quick Shop</span></a> --}}
 															<a title="Wishlist" href="/add-to-wishlist/{{this._id}}"><i
 																	class=" ti-heart "></i><span>Add to
-																	Wishlist</span></a>
+																	Wishlist{{this.stock}}</span></a>
 															<a title="Compare" href="#">
 																	<span>
 																	</span></a> 
 														</div>
 														<div class="product-action-2">
-															<a title="Add to cart" href="/add-to-cart/{{this._id}}">Add
+															<a title="Add to cart" href="/add-to-cart/{{this._id}}" onclick="stock(`{{this.stock}}`)">Add
 																to cart</a>
 
 														</div>
@@ -445,6 +449,16 @@
 														item.style.display = 'none'
 													}
 												})
+											}
+
+											function stock(num)
+											{
+												console.log(num ,"is the number of stock")
+												{{!-- alert(num ) --}}
+												if(num<=0)
+												{
+													alert("product out of stock")
+												}
 											}
 
 

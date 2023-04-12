@@ -77,7 +77,11 @@ router.get('/deliverd-order/:id',adminController.deliverOrder)
 
 router.get('/chart',adminController.getChart)
 
-router.get('/category-sales',adminController.getCategorysales)
+router.get('/sales',adminController.getCategorysales)
+
+router.get('/weekly-sales',adminController.getWeeklySales)
+
+router.post('/weekly-sales',adminController.postWeeklySales)
 
 
 

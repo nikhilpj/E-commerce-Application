@@ -1,0 +1,68 @@
+<div class="container mt-3">
+  <div class="item1">
+    <form action="/admin/weekly-sales" method="post">
+      <label for="from">From:</label>
+      <input type="date" name="from">
+      <label for="to">To:</label>
+      <input type="date" name="to">
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  <div class="item1" style="float: right;">
+    <h4>Total: {{totalSales}}</h4>
+  </div>
+</div>
+<div class="container">
+<section>
+    
+        <table class="table table-hover  mt-5" id="salesTable">
+  <thead>
+    <tr>
+      <th scope="col">No</th>
+      <th scope="col">Order-Date</th>
+      <th scope="col">Product</th>
+      
+      <th scope="col">Price</th>
+      <th scope="col">quantity</th>
+     
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      {{#each orders}}
+     
+      <th scope="row" class="indexCount" data-value="{{@index}}"></th>
+      <td>{{this.date}}</td>
+     
+      <td> 
+          {{#each this.products}}
+           {{this.name}} ,
+           {{/each}}
+      </td>
+      
+      <td>{{#each this.products}}
+           {{this.price}} ,
+           {{/each}}
+      </td>
+     <td> {{#each this.products}}
+           {{this.quantity}} ,
+           {{/each}}
+      </td>
+      
+    </tr>
+     {{/each}}
+
+     
+   
+  </tbody>
+</table>
+
+    </div>
+</section>
+
+<script>
+  let indexCount = document.getElementsByClassName("indexCount")
+  for (i = 0; i < indexCount.length; i++)
+    indexCount[i].innerHTML = parseInt(indexCount[i].getAttribute('data-value')) + 1
+</script>
+<script>

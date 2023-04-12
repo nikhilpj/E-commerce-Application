@@ -64,5 +64,17 @@ module.exports ={
                 resolve()
             })
         })
-    }
+    },
+    
+
+    CategoryFilter: (id) => {
+        return new Promise(async (resolve, reject) => {
+            let category = await db.get().collection(collection.CATEGORY_MANAGEMENT).findOne({ _id: ObjectId(id) })
+            console.log("details of category to apply filter", category);
+            let categoryname = category.category
+            console.log("category name ", categoryname);
+            let products = db.get().collection(collection.PRODUCT_COLLECTION).find({ category: categoryname }).toArray()
+            resolve(products)
+        })
+    },
 }

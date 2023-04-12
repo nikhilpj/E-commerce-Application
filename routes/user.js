@@ -75,6 +75,8 @@ router.get('/delete-wish-product/:id',userController.getDeletewishProduct)
 
 router.post('/search',userController.getsearch)
 
+router.get('/apply-category/:id',userController.getCategoryfilter)
+
 router.get('/user-profile',userController.verifyLogin,userController.getProfile)
 
 

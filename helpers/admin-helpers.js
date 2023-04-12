@@ -1,7 +1,7 @@
 var db = require("../config/connection");
 var collection = require("../config/collection");
 var bcrypt = require("bcrypt");
-const { response } = require("../app");
+const { response, resource } = require("../app");
 
 var ObjectId = require("mongodb").ObjectId;
 
@@ -69,7 +69,14 @@ module.exports = {
     },
     getOrderList: () => {
         return new Promise(async (resolve, reject) => {
-            let orders = await db.get().collection(collection.ORDER_COLLECTION).find().toArray()
+            let orders = await db.get().collection(collection.ORDER_COLLECTION).aggregate([{
+               $match:{}
+            },
+        {
+            $sort:{
+                date:-1
+            }
+        }]).toArray()
             for (let order of orders) {
                 let products = []
                 for (let item of order.products) {
@@ -170,12 +177,95 @@ module.exports = {
     getchartCount: () => {
         return new Promise(async (resolve, reject) => {
             let response = {}
-            response.cod = await db.get().collection(collection.ORDER_COLLECTION).find({ paymentMethod: "cod" }).count()
+            response.cod = await db.get().collection(collection.ORDER_COLLECTION).find({ paymentMethod: "cash-on-delivery" }).count()
             console.log("cout of cod", response.cod);
             response.on = await db.get().collection(collection.ORDER_COLLECTION).find({ paymentMethod: "on" }).count()
             console.log("cout of on", response.on);
             resolve(response)
         })
+    },
+
+    weeklySales:(data)=>{
+        console.log("data in weekly sales",data)
+        let from = data.from
+        let to = data.to
+        return  new Promise(async(resolve,reject)=>{
+
+            
+           let Weekly_sales = await db.get().collection(collection.ORDER_COLLECTION).aggregate([{
+                $match:{
+                    date:{
+                    $gte:from , $lte:to
+                    }
+                }},
+                {
+                    $unwind:'$products'
+                },
+                {
+                    $project:{
+                        item:'$products.item',
+                        quantity:'$products.quantity'
+                    }
+                },
+                {
+                    $lookup:{
+                        from:collection.PRODUCT_COLLECTION,
+                        localField:'item',
+                        foreignField:'_id',
+                        as:'products'
+                    }
+                },
+                {
+                    $project:{
+                        item:1,quantity:1,products:{$arrayElemAt:['$products',0]}
+                    }
+                },
+                {
+                    $group:{
+                        _id:null,
+                        total: {
+                            $sum: {$multiply:['$quantity', {$toInt: '$products.price'}]}
+                          }
+                    }
+                }
+
+            ]).toArray()
+            resolve(Weekly_sales[0].total)
+        })
+            
+        
+
+    },
+
+    Orders:(data)=>{
+        console.log('data is ',data)
+        let from = data.from
+        let to = data.to
+        console.log("from is ",from,"to is",to)
+        return new Promise(async(resolve,reject)=>{
+
+            let orders= await db.get().collection(collection.ORDER_COLLECTION).aggregate([{
+                $match:{
+                    date:{$gte:from , $lte:to}
+                }
+            },
+        {
+            $sort:{
+                date:-1
+            }
+        }]).toArray()
+            for (let order of orders) {
+                let products = []
+                for (let item of order.products) {
+                    let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: ObjectId(item.item) })
+                    products.push({ name: product.name, quantity: item.quantity,price:product.price })
+                }
+                order.products = products
+            }
+
+            resolve(orders)
+        })
+        
     },
 
     Categorysales: () => {

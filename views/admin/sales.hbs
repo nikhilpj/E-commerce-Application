@@ -1,9 +1,9 @@
 <section>
   <div class="container mt-2 mb-3">
-    <h1 class="text-center">category wise sales</h1>
+    <h1 class="text-center">Category sales</h1>
   </div>
 <div class="container mt-3 mb-2" style="width: 40%; height:20%">
-  <canvas id="myChart"></canvas>
+  <canvas id="myChart2"></canvas>
 </div>
 
 </section>
@@ -11,15 +11,15 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  const ctx = document.getElementById('myChart');
+  const ctx = document.getElementById('myChart2');
 
   new Chart(ctx, {
     type: 'pie',
     data: {
-      labels: ['cod','on' ],
+      labels: ['sun-glass','eye-lens','plain-glass' ],
       datasets: [{
         label: '# of Votes',
-        data: [{{response.cod}},{{response.on}}],
+        data: [{{categorySales.[0].totalSales}},{{categorySales.[1].totalSales}},{{categorySales.[2].totalSales}}],
         borderWidth: 1
       }]
     },
