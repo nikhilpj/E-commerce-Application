@@ -4,13 +4,20 @@ const bcrypt = require('bcrypt');
 require('dotenv').config()
 const { response } = require('express');
 const { log } = require('handlebars');
-const { serviceSid } = require('../config/collection');
-const { accountSid, authToken } = require('../config/collection');
+// const { serviceSid } = require('../config/collection');
+// const { accountSid, authToken } = require('../config/collection');
+const serviceSid =process.env.serviceSid 
+
+const accountSid = process.env.accountSid
+const authToken = process.env.authToken
+console.log(serviceSid,"this is servicesid");
+console.log(accountSid,"this is accountsid");
+console.log(authToken,"this is authtoken")
 
 const { resolve } = require('path');
 const { error } = require('console');
 const { request } = require('http');
-const client = require('twilio')(accountSid, authToken)
+ const client = require('twilio')(accountSid, authToken)
 var ObjectId = require("mongodb").ObjectId;
 
 
@@ -225,6 +232,7 @@ module.exports = {
     verifyPhone: (userData) => {
         return new Promise(async (resolve, reject) => {
             let response = {}
+        
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ phone: userData.phone })
             console.log("this is user to verify phone ", user);
             if (user) {
@@ -245,15 +253,16 @@ module.exports = {
         })
     },
 
-    verifyOtp: (userData) => {
+    verifyOtp: (userData,Phone) => {
         return new Promise((resolve, reject) => {
             let otpCode = userData.otp
+            console.log("this is phone number in verify otp",Phone)
             let response = {}
             console.log("this is the otp", otpCode);
 
             client.verify.v2
                 .services(serviceSid)
-                .verificationChecks.create({ to: '+919383434361', code: otpCode })
+                .verificationChecks.create({ to: `+91${Phone.phone}`, code: otpCode })
                 .then((verification_check) => {
                     console.log("this is status ", verification_check.status)
                     console.log(verification_check.status, "huhu");

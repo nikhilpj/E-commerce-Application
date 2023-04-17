@@ -33,6 +33,8 @@ module.exports = {
         .deleteOne({ _id: objectId(prodId) })
         .then((response) => {
           fs.unlinkSync("./public/product-images/" + prodId + ".jpg");
+          fs.unlinkSync("./public/product-images/" + prodId +1+ ".jpg");
+          fs.unlinkSync("./public/product-images/" + prodId +2+ ".jpg");
           resolve(response);
         });
     });

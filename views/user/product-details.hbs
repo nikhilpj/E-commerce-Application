@@ -13,6 +13,7 @@
 
   </div>
 </section> --}}
+
 <div class="card-wrapper">
   <div class="card">
     {{!-- card left --}}
@@ -20,17 +21,19 @@
       <div class="img-display" >
         <div class="img-showcase"  id="img-showcase">
           <img src="/product-images/{{product._id}}.jpg" alt="">
+          <img src="/product-images/{{product._id}}1.jpg" alt="">
+          <img src="/product-images/{{product._id}}2.jpg" alt="">
         </div>
       </div>
       <div class="img-select">
         <div class="img-item">
-          <a href="#" data-id="1"><img src="" alt=""></a>
+          <a href="#" data-id="1"><img src="/product-images/{{product._id}}.jpg" alt=""></a>
         </div>
         <div class="img-item">
-          <a href="#" data-id="2"><img src="" alt=""></a>
+          <a href="#" data-id="2"><img src="/product-images/{{product._id}}1.jpg" alt=""></a>
         </div>
         <div class="img-item">
-          <a href="#" data-id="3"><img src="" alt=""></a>
+          <a href="#" data-id="3"><img src="/product-images/{{product._id}}2.jpg" alt=""></a>
         </div>
         <div class="img-item">
           <a href="#" data-id="4"><img src="" alt=""></a>
@@ -64,6 +67,27 @@
   new ImageZoom(document.getElementById("img-showcase"), options);
 
 </script>
+<script>
+
+  const imgs = document.querySelectorAll('.img-select a')
+  const imgBtns = [...imgs]
+  let imgId = 1
+  imgBtns.forEach((imgItem)=>{
+    imgItem.addEventListener('click',(event)=>{
+      event.preventDefault()
+      imgId = imgItem.dataset.id
+      slideImage()
+    })
+  })
+
+  function slideImage()
+  {
+    const displayWidth = document.querySelector('.img-showcase img:first-child').clientWidth
+    document.querySelector('.img-showcase').style.transform = `translateX(${-(imgId - 1) * displayWidth}px)`
+  }
+    
+  
+</script>
 
 <style>
   *{
@@ -76,7 +100,7 @@
     line-height: 1.5;
   }
   .card-wrapper{
-    max-width: 1110px;
+    max-width: 950px;
     margin: 0 auto;
   }
   img{
@@ -91,7 +115,7 @@
     width: 100%;
     transition: all 0.5s ease;
   }
-  .img-showcase.img{
+  .img-showcase img{
     min-width: 100%;
   }
   .img-select{

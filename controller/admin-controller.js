@@ -17,15 +17,23 @@ module.exports={
       if(req.session.adminLoggedIn)
       {
         console.log(req.body,"this is req.body in add product")
-     console.log("next",req.files.image,"this is req.files.image")
+     console.log("next",req.files.image1,"this is req.files.image")
+     console.log("image2",req.files.image2)
+     console.log('image3',req.files.image3)
     productHelpers.addProduct(req.body,(id)=>{
     let Image = req.files.image
-    Image.mv('./public/product-images/'+id+'.jpg',(err,done)=>{
-      if(!err)
-      res.redirect('/admin/product-management')
-      else
-      console.log(err)
-    })
+    let image2 = req.files.image1
+    let image3= req.files.image2
+    Image.mv('./public/product-images/'+id+'.jpg')
+    image2.mv('./public/product-images/'+id+1+'.jpg')
+    image3.mv('./public/product-images/'+id+2+'.jpg')
+    // (err,done)=>{
+    //   if(!err)
+    //   res.redirect('/admin/product-management')
+    //   else
+    //   console.log(err)
+    // })
+    res.redirect('/admin/product-management')
     
   })
 }
@@ -93,6 +101,18 @@ getDeleteProduct :(req,res)=>{
             let Image = req.files.image
             Image.mv('./public/product-images/'+id+'.jpg')
           }
+          if(req.files.image1)
+          {
+            let Image1 = req.files.image1
+            Image1.mv('./public/product-images/'+id+1+'.jpg')
+          }
+          if(req.files.image2)
+          {
+            let Image2 = req.files.image2
+            Image2.mv('./public/product-images/'+id+2+'.jpg')
+          }
+
+
         })
       },
       getBlockUser : (req,res)=>{

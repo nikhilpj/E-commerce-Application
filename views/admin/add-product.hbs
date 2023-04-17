@@ -1,31 +1,74 @@
+
+
 <section>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h2 class="text center">Add product</h2>
-                <form action="/admin/add-product" enctype="multipart/form-data" method="post">
-                    <label for="">Name</label>
-                    <input type="text" name="name" class="form-control">
-                   <label for="">category</label> 
-                    {{!-- <input type="text" name="category" class="form-control">  --}}
-                    <select class="form-select form-select-sm mt-3" name="category" >
-                  <option hidden disabled selected></option>
-                  {{#each categories}}
-                  <option value="{{this.category}}">{{this.category}}</option>
-                  {{/each}}
-                 </select>
-                    <label for="">price</label>
-                    <input type="text" name="price" class="form-control">
-                    <label for="">stock</label>
-                    <input type="number" name="stock" class="form-control">
-                    <label for="">description</label>
-                    <input type="text" name="description" class="form-control">
-                    <label for="">image</label>
-                    <input type="file" name="image" class="form-control">
-                    <button type="submit" class="btn btn-success mt-4">submit</button>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="text-center">Add product</h2>
+          </div>
+          <div class="card-body">
+            <form action="/admin/add-product" enctype="multipart/form-data" method="post">
+              <div class="form-group row">
+                <label for="name" class="col-md-4 col-form-label text-md-right">Name</label>
+                <div class="col-md-6">
+                  <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="category" class="col-md-4 col-form-label text-md-right">Category</label>
+                <div class="col-md-6">
+                  <select class="form-control" id="category" name="category" required>
+                    <option hidden disabled selected value="">Select category</option>
+                    {{#each categories}}
+                    <option value="{{this.category}}">{{this.category}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="price" class="col-md-4 col-form-label text-md-right">Price</label>
+                <div class="col-md-6">
+                  <input type="text" id="price" name="price" class="form-control" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="stock" class="col-md-4 col-form-label text-md-right">Stock</label>
+                <div class="col-md-6">
+                  <input type="number" id="stock" name="stock" class="form-control" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="description" class="col-md-4 col-form-label text-md-right">Description</label>
+                <div class="col-md-6">
+                  <textarea id="description" name="description" class="form-control" rows="3" required></textarea>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="image1" class="col-md-4 col-form-label text-md-right">Image 1</label>
+                <div class="col-md-6">
+                  <input type="file" id="image1" name="image" class="form-control-file" accept="image/*" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="image2" class="col-md-4 col-form-label text-md-right">Image 2</label>
+                <div class="col-md-6">
+                  <input type="file" id="image2" name="image1" class="form-control-file" accept="image/*">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="image3" class="col-md-4 col-form-label text-md-right">Image 3</label>
+                <div class="col-md-6">
+                  <input type="file" id="image3" name="image2" class="form-control-file" accept="image/*">
+                </div>
+              </div>
+               <button type="submit" class="btn btn-success mt-4">submit</button>
 
                 </form>
-            </div>
+            
         </div>
     </div>
 </section>
+
+

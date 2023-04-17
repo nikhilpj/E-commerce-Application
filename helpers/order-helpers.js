@@ -145,6 +145,17 @@ module.exports={
         
             }
             // console.log("data in productarr",productArr);
+            let user= await db.get().collection(collection.USER_COLLECTION).findOne({_id:ObjectId(orderObj.userId)})
+            if(user.coupon_status)
+            {
+                db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(orderObj.userId) },
+                {
+                    $unset: {
+                        coupon_id: 1,
+                        coupon_status: 1
+                    }
+                })
+            }
 
             db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then(() => {
                 db.get().collection(collection.CART_COLLECTION).deleteOne({ user: ObjectId(req.session.order.userId) })
@@ -157,6 +168,19 @@ module.exports={
             })
 
         })
+    },
+
+    deleteAddress:(addressId,userId)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.USER_COLLECTION).updateOne({_id:ObjectId(userId)},{
+                $pull:{
+                    address:{Id:addressId}
+                }
+            }).then(()=>{
+                resolve()
+            })
+        })
+
     },
 
     applyAddress: (req, id) => {

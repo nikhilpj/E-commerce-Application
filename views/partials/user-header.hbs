@@ -40,26 +40,27 @@
 	<!-- Header -->
 	<header class="header shop">
 		<!-- Topbar -->
-		<div class="topbar">
+		{{!-- <div class="topbar">
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-4 col-md-12 col-12">
+					<div class="col-lg-4 col-md-12 col-12"> --}}
 						<!-- Top Left -->
-						<div class="top-left">
+						{{!-- <div class="top-left">
 							<ul class="list-main">
 								<li><i class="ti-headphone-alt"></i> +060 (800) 801-582</li>
 								<li><i class="ti-email"></i> support@shophub.com</li>
 							</ul>
-						</div>
+						</div> --}}
 						<!--/ End Top Left -->
-					</div>
+					{{!-- </div>
 					<div class="col-lg-8 col-md-12 col-12">
 						<!-- Top Right -->
 						<div class="right-content">
-							<ul class="list-main" id="li">
+							<ul class="list-main" id="li"> --}}
 								{{!-- <li><i class="ti-location-pin"></i> Store location</li>
 								<li><i class="ti-alarm-clock"></i> <a href="#">Daily deal</a></li> --}}
-								{{#if user}}
+
+								 {{!-- {{#if user}}
 								<li> <a href="#"></a></li>
 								{{else}}
 								<li><i class="ti-user"></i> <a href="/signup">Sign-in</a></li>
@@ -68,24 +69,26 @@
 								<li><i class="ti-user"></i> <a href="#">{{user.firstname}}</a></li>
 								{{else}}
 								<li><i class="ti-user"></i> <a href="#">Account</a></li>
-							{{/if}}
+							{{/if}}  --}}
+
 							{{!-- <li><i class="ti-user"></i> <a href="/profile">profile</a></li>
 							<ul class="dro">
 								<li> <a href="/view-orders">view-orders</a></li>
 								<li> <a href="/add-address">add-address</a></li>
 							</ul> --}}
-							{{#if user}}
+
+							 {{!-- {{#if user}}
 								<li><i class="ti-power-off"></i><a href="/logout">Logout</a></li>
 								{{else}}
 							<li><i class="ti-power-off"></i><a href="/login">Login</a></li>	
-							{{/if}}
-							</ul>
-						</div>
+							{{/if}} --}}
+							{{!-- </ul> 
+						</div> --}}
 						<!-- End Top Right -->
-					</div>
+					{{!-- </div>
 				</div>
 			</div>
-		</div>
+		</div> --}}
 		<!-- End Topbar -->
 		<div class="middle-inner">
 			<div class="container">
@@ -218,8 +221,35 @@
 													<li><a href="/user-profile">Profile<i class="ti-angle-down"></i><span class="new">New</span></a>
 														
 													</li>
-													{{/if}}
 													
+													{{/if}}
+													<li><a href=""></a></li>
+													<li><a href=""></a></li>
+													<li><a href=""></a></li>
+													<li><a href=""></a></li>
+													<li><a href=""></a></li>
+													<li><a href=""></a></li>
+													<li><a href=""></a></li>
+													<li><a href=""></a></li>
+													
+													{{#if user}}
+													<li><a href=""></a></li>
+													{{else}}
+													<li><a href="/signup"><i class="ti-user" ></i> sign-up</a></li>
+									 				{{/if}}
+
+													{{#if user}}
+													<li><a href="#"><i class="ti-user"></i> {{user.firstname}}</a></li>
+													{{else}}
+													<li> <a href="#"><i class="ti-user"></i> Account</a></li>
+													{{/if}} 
+
+													{{#if user}}
+													<li><a href="/logout"><i class="ti-power-off"></i>Logout</a></li>
+													{{else}}
+													<li><a href="/login"><i class="ti-power-off"></i>Login</a></li>	
+													{{/if}}
+
 													{{!-- <li><a href="#">Pages</a></li>									 --}}
 													{{!-- <li><a href="#">Blog<i class="ti-angle-down"></i></a>
 														<ul class="dropdown">

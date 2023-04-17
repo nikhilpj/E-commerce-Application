@@ -1,37 +1,61 @@
 <section>
     <div class="container">
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-md-6">
-                <h2 class="text center">edit product</h2>
-                <form action="/admin/edit-product/{{product._id}}" enctype="multipart/form-data" method="post">
-                    <label for="">Name</label>
-                    <input type="text" name="name" class="form-control" value="{{product.name}}">
-                         <select class="form-select form-select-sm mt-3" name="category" id="category" value="{{categories.category}}">
-                  <option value=""  selected disabled hidden>choose here</option>
-                  {{#each categories}}
-                  <option value="{{this.category}}" >{{this.category}}</option>
-                  {{/each}}
-                 </select>
-                   
-                    
-                    {{!-- <input type="text" name="category" class="form-control" value="{{product.category}}"> --}}
-                    <label for="">price</label>
-                    <input type="text" name="price" class="form-control" value="{{product.price}}">
-                    <label for="">description</label>
-                    <input type="text" name="description" class="form-control" value="{{product.description}}">
-                    <label for="">image</label>
-                    <img src="/product-images/{{product._id}}.jpg" style="height: auto; width:100px" id="imgchange" class="pt-3 pb-2">
-                    <input type="file" name="image" class="form-control" onchange="changeImg(event)">
-                    <button type="submit" class="btn btn-success mt-4">submit</button>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text center">edit product</h2>
+                    </div>
+                    <div class="card-body">
+                        <form action="/admin/edit-product/{{product._id}}" enctype="multipart/form-data" method="post">
+                            <label for="">Name</label>
+                            <input type="text" name="name" class="form-control" value="{{product.name}}" />
+                            <select class="form-select form-select-sm mt-3" name="category" id="category"
+                                value="{{categories.category}}">
+                                <option value="" selected disabled hidden>choose here</option>
+                                {{#each categories}}
+                                <option value="{{this.category}}">{{this.category}}</option>
+                                {{/each}}
+                            </select>
 
-                </form>
+                            <input type="text" name="category" class="form-control" value="{{product.category}}" />
+                            <label for="">price</label>
+                            <input type="text" name="price" class="form-control" value="{{product.price}}" />
+                            <label for="">description</label>
+                            <input type="text" name="description" class="form-control"
+                                value="{{product.description}}" />
+                            <label for="">image</label>
+                            <img src="/product-images/{{product._id}}.jpg" style="height: auto; width:100px"
+                                id="imgchange" class="pt-3 pb-2" />
+                            <input type="file" name="image" class="form-control" onchange="changeImg(event)" />
+                            <img src="/product-images/{{product._id}}1.jpg" style="height: auto; width:100px"
+                                id="imgchange1" class="pt-3 pb-2" />
+                            <input type="file" name="image1" class="form-control" onchange="changeImg1(event)" />
+                            <img src="/product-images/{{product._id}}2.jpg" style="height: auto; width:100px"
+                                id="imgchange2" class="pt-3 pb-2" />
+                            <input type="file" name="image2" class="form-control" onchange="changeImg2(event)" />
+                            <button type="submit" class="btn btn-success mt-4">submit</button>
+
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
 <script>
-    function changeImg(event){
-        document.getElementById("imgchange").src = URL.createObjectURL(event.target.files[0])
+    function changeImg(event) {
+        document.getElementById("imgchange").src =
+        URL.createObjectURL(event.target.files[0])
+    }
+
+    function changeImg1(event){
+        document.getElementById("imgchange1").src =
+        URL.createObjectURL(event.target.files[0]) 
+    }
+    function changeImg2(event){
+        document.getElementById("imgchange2").src =
+        URL.createObjectURL(event.target.files[0]) 
     }
 </script>

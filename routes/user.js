@@ -2,17 +2,12 @@
 const { response } = require('express');
 var express = require('express');
 
-
 require('dotenv').config()
 var router = express.Router();
 const productHelpers = require('../helpers/product-helpers');
 const userHelpers = require('../helpers/user-helpers')
 const userController = require('../controller/user-controller')
 
-
-
-
-// console.log(process.env.client_id, "cliend id","client secret");
 /* GET home page. */
 router.get('/', userController.viewAllProducts),
 
@@ -64,6 +59,8 @@ router.get('/view-orders', userController.verifyLogin, userController.getViewOrd
 router.get('/add-address',userController.verifyLogin,userController.getAddaddress)
 
 router.post('/add-address',userController.verifyLogin,userController.postAddaddress)
+
+router.get('/delete-address/:id',userController.verifyLogin,userController.getDeleteAddress)
 
 router.get('/cancel-order/:id',userController.verifyLogin,userController.cancelOrder)
 

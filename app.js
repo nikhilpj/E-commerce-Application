@@ -16,8 +16,8 @@ var session = require('express-session')
 
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
-const { accountSid, authToken } = require('./config/collection');
-const client = require('twilio')(accountSid,authToken)
+// const { accountSid, authToken } = require('./config/collection');
+// const client = require('twilio')(accountSid,authToken)
 const paypal = require('paypal-rest-sdk')
 // var helpers = require('handlebars-helpers')();
 

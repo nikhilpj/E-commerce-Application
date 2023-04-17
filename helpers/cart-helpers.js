@@ -120,6 +120,67 @@ module.exports={
 
     },
 
+    getTotalAmountPaypal: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            let total = await db.get().collection(collection.CART_COLLECTION).aggregate([
+                {
+                    $match: { user: ObjectId(userId) }
+                },
+                {
+                    $unwind: '$products'
+                },
+                {
+                    $project: {
+                        item: '$products.item',
+                        quantity: '$products.quantity'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: collection.PRODUCT_COLLECTION,
+                        localField: 'item',
+                        foreignField: '_id',
+                        as: 'product'
+                    }
+                },
+                {
+                    $project: {
+                        item: 1, quantity: 1, product: { $arrayElemAt: ['$product', 0] }
+                    }
+                },
+
+                {
+                    $group: {
+                        _id: null,
+                        total: { $sum: { $multiply: ['$quantity', { $toInt: '$product.price' }] } }
+                    }
+                }
+
+
+            ]).toArray()
+
+            console.log(total, +'god bless me');
+            if (total[0]) {
+
+                let user = await db.get().collection(collection.USER_COLLECTION).findOne({_id:ObjectId(userId)})
+                console.log("user data in gettotalamountpaypal ",user)
+                if(user.coupon_status)
+                {
+                    let coupon = await db.get().collection(collection.COUPON_COLLECTION).findOne({ _id: ObjectId(user.coupon_id) })
+                    console.log("coupon details in placepaypal to know its value",coupon)
+                    total[0].total = total[0].total - (total[0].total * coupon.value)/100
+                }
+                
+                resolve(total[0].total);
+            } else {
+                resolve(0);
+            }
+
+
+        })
+
+    },
+
     getAllcoupon: () => {
         return new Promise(async (resolve, reject) => {
             let coupon = await db.get().collection(collection.COUPON_COLLECTION).find().toArray()

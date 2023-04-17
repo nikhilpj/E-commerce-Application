@@ -14,6 +14,7 @@ paypal.configure({
 module.exports = {
   getCart: async (req, res) => {
     let cartCount = null
+    let cartCountStatus = false
 
     cartCount = await cartHelpers.getCartCount(req.session.user._id)
 
@@ -21,9 +22,13 @@ module.exports = {
 
     let totalValue = await cartHelpers.getTotalAmount(req.session.user._id)
     let coupons = await cartHelpers.getAllcoupon()
+    if(cartCount==0)
+    {
+      cartCountStatus = true
+    }
     // console.log("coupons to show in cart ", coupons);
     // console.log(products, "products after performing aggregation")
-    res.render('user/cart', { products, 'user': req.session.user._id, cartCount, totalValue, coupons })
+    res.render('user/cart', { products, 'user': req.session.user._id, cartCount, totalValue, coupons,cartCountStatus })
   },
 
   getViewOrder: async (req, res) => {
@@ -62,7 +67,15 @@ module.exports = {
     })
   },
 
-
+  getDeleteAddress:(req,res)=>{
+    let userid = req.session.user._id
+ let addressId = req.params.id
+ console.log("this is the  id of address to delete ",addressId)
+ orderHelpers.deleteAddress(addressId,userid).then(()=>{
+  console.log("after deleting address ")
+  res.redirect('/order')
+ })
+  },
 
 
   getOrder: async (req, res) => {
@@ -90,7 +103,10 @@ module.exports = {
       console.log("discount amount ", totalPrice);
 
       console.log("coupon of user", user);
+      if(req.body['payment-method']=='cash-on-delivery')
+      {
       orderHelpers.postApplycoupon(userid)
+      }
     }
     if (req.body['payment-method'] !== 'cash-on-delivery') {
       console.log("payment method is not cod so storing order data in session");
@@ -176,19 +192,19 @@ module.exports = {
 
   },
   viewAllProducts: async (req, res) => {
-    console.log("*****");
     let user = req.session.user
     let categories= await userHelpers.getAllcatergories()
-    console.log("categories for filter",categories);
     productHelpers.getAllProducts().then((products) => {
       res.render('user/main', { products, user ,categories})
     })
   },
+
   viewProductDetails: async (req, res) => {
 
     let product = await productHelpers.getProductDetails(req.params.id)
     res.render('user/product-details', { product, user: req.session.user })
   },
+
   verifyLogin: (req, res, next) => {
     if (req.session.loggedIn)
 
@@ -200,9 +216,7 @@ module.exports = {
   },
   getAddToCart: async(req, res) => {
 
-    console.log("to knoe detail of products", req.params.id);
     let product = await productHelpers.getProductDetails(req.params.id)
-    console.log("details of produt to verify stock",product.stock);
     if(product.stock<=0)
     {
       
@@ -210,7 +224,6 @@ module.exports = {
     else
     {
 
-    
     cartHelpers.addToCart(req.params.id, req.session.user._id).then(() => {
 
       res.redirect('/')
@@ -219,17 +232,13 @@ module.exports = {
   },
 
   getMovetoCart: (req, res) => {
-    console.log("to knoe detail of products in wishlist", req.params.id);
     userHelpers.moveToCart(req.params.id, req.session.user._id).then(() => {
-
       res.redirect('/')
     })
   },
 
   getDeleteCartProduct: (req, res) => {
     let proId = req.params.id
-    console.log(req.params.id, "this is req.params.id from getdeletecartproduct")
-    console.log("this is req.session.user._id", req.session.user._id)
     cartHelpers.deleteCartProduct(proId, req.session.user._id).then((response) => {
       res.redirect('/cart')
     })
@@ -280,7 +289,8 @@ module.exports = {
   postPhone: (req, res) => {
     userHelpers.verifyPhone(req.body).then((response) => {
       // let result = response
-
+      req.session.phone= req.body
+      
       if (response.status) {
 
         console.log('user exists ,redirecting to otp page')
@@ -298,9 +308,10 @@ module.exports = {
     res.render('user/otp')
   },
   postOtp: (req, res) => {
+
     console.log("hey bro how are you");
     console.log("contains data of user");
-    userHelpers.verifyOtp(req.body).then((response) => {
+    userHelpers.verifyOtp(req.body,req.session.phone).then((response) => {
       console.log(response, "haha");
       if (response.status == 'approved') {
         req.session.loggedIn = true
@@ -410,6 +421,7 @@ module.exports = {
 
     // let orders = await userHelpers.getOrderProducts(req.session.user._id)
     // console.log("orders in payment ",orders);
+    let userName = req.session.user.firstname
 
     const create_payment_json = {
       "intent": "sale",
@@ -478,7 +490,7 @@ module.exports = {
         console.log(JSON.stringify(payment));
 
         cartHelpers.getCarProductList(req.session.user._id).then((products) => {
-          cartHelpers.getTotalAmount(req.session.user._id).then((totalPrice) => {
+          cartHelpers.getTotalAmountPaypal(req.session.user._id).then((totalPrice) => {
  
             orderHelpers.placePaypal(req, products, totalPrice).then(() => {
               // res.send('Success');

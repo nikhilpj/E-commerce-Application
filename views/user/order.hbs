@@ -34,16 +34,22 @@
 			<i class="fas fa-laptop-code"></i>
 			
 			<p>{{this.address}}</p>
-
 			<p>{{this.pincode}}</p>
-			<a href="/apply-address/{{this.Id}}" class="btn  text-center" style="color: white;width:min-content;height:40px;margin:0 auto;">apply</a> 
-			
+			<div class="button-group">
+			<a href="/apply-address/{{this.Id}}" class="btn  apply-btn" style="color: #fff;">apply</a> 
+			<a href="/delete-address/{{this.Id}}" class="btn  delete-btn" style="color: #fff;">Delete</a> 
+			</div>
 		</div>
 		{{/each}}
 
 
 	</div>
 </section>
+
+
+
+
+
 
 
 {{!-- multiple address --}}
@@ -328,7 +334,7 @@
 		padding: 10px;
 		box-shadow: 0 20px 35px rgba(0,0, 0, 0.1);
 	}
-	.main-skills .card button{
+	{{!-- .main-skills .card button{
 
 		background: #f7941d;
 		color: #fff;
@@ -337,7 +343,7 @@
 		margin-top: 15px;
 		cursor: pointer;
 
-	}
+	} --}}
 	.main-skills .card button:hover{
 		background: rgba(223, 70, 15, 0.856);
 	}
@@ -345,4 +351,23 @@
 		font-size: 16px;
 		padding: 10px;
 	}
+	.button-group {
+    display: flex;
+	justify-content: center;
+	margin-top: 15px;
+	
+}
+.btn {
+    display: inline-block;
+    
+    border: none;
+    color: #fff;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+	
+}
+
 </style>
+

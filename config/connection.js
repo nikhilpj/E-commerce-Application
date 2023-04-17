@@ -1,11 +1,12 @@
 const mongoClient = require('mongodb').MongoClient
+require('dotenv').config()
 const state ={
     db : null
 }
 
 module.exports.connect = function(done){
-    const url = 'mongodb://localhost:27017'
-    const dbname = 'paniyal2'
+    const url = process.env.url
+    const dbname = process.env.dbname
 
     mongoClient.connect(url,(err,data)=>{
         if(err) 
