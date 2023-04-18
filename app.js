@@ -10,17 +10,9 @@ var fileupload = require('express-fileupload')
 var db = require('./config/connection')
 var collection = require('./config/collection')
 var session = require('express-session')
-// const Handlebars = require('handlebars');
-
-
-
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
-// const { accountSid, authToken } = require('./config/collection');
-// const client = require('twilio')(accountSid,authToken)
 const paypal = require('paypal-rest-sdk')
-// var helpers = require('handlebars-helpers')();
-
 paypal.configure({
   'mode': 'sandbox', //sandbox or live
   'client_id': process.env.client_id,
@@ -37,14 +29,7 @@ app.engine('hbs',hbs.engine({
   extname:'hbs',defaultLayout:'layout',
   layoutsDir:__dirname+'/views/layout/',
   partialsDir:__dirname+'/views/partials/',
-  // helpers:{
-  //   eq:(state,value,options)=>{
-  //     if(state==value){
-  //       return options.fn(this)
-  //     }
-  //     return  options.inverse(this);
-  //   }
-  // }
+ 
 }))
 
 
@@ -55,11 +40,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileupload())
 app.use(session({secret:'key',cookie:{maxAge:6000000}}));
-
-// Handlebars.registerHelper('eq',function(state, value, options)
-// {
-//   return (state == value) ? options.fn(this) : options.inverse(this);
-// })
 
 
 db.connect((err)=>{

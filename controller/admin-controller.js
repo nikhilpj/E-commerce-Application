@@ -9,17 +9,12 @@ module.exports={
       categoryHelpers.getAllCategory().then((categories)=>{
         res.render('admin/add-product',{admin:true,categories})
       })
-       
-      
-        
+             
     },
+
     postAddProduct : (req,res)=>{
       if(req.session.adminLoggedIn)
       {
-        console.log(req.body,"this is req.body in add product")
-     console.log("next",req.files.image1,"this is req.files.image")
-     console.log("image2",req.files.image2)
-     console.log('image3',req.files.image3)
     productHelpers.addProduct(req.body,(id)=>{
     let Image = req.files.image
     let image2 = req.files.image1
@@ -27,12 +22,7 @@ module.exports={
     Image.mv('./public/product-images/'+id+'.jpg')
     image2.mv('./public/product-images/'+id+1+'.jpg')
     image3.mv('./public/product-images/'+id+2+'.jpg')
-    // (err,done)=>{
-    //   if(!err)
-    //   res.redirect('/admin/product-management')
-    //   else
-    //   console.log(err)
-    // })
+
     res.redirect('/admin/product-management')
     
   })
@@ -60,17 +50,17 @@ getDeleteProduct :(req,res)=>{
         categoryHelpers.addCategory(req.body).then(()=>{
           
             res.redirect('/admin/category-management')
-          
-          
+                    
         })
-         
-      
+              
       },
+
     allProducts : (req,res)=>{
         productHelpers.getAllProducts().then((products)=>{
             res.render('admin/product-management',{admin:true,products})
           })  
     },
+
     allUsers : (req,res)=>{
       console.log('lkjhg');
      if(req.session.adminLoggedIn)
@@ -83,19 +73,18 @@ getDeleteProduct :(req,res)=>{
           res.redirect('/admin/admin-login')
         }
     },
+
     getEditProduct :  async (req,res)=>{
         let product =await productHelpers.getProductDetails(req.params.id)
-        console.log(product)
         categoryHelpers.getAllCategory().then((categories)=>{
         res.render('admin/edit-product',{product,admin:true,categories})
         })
       },
+
       postEditProduct : (req,res)=>{
         let id =req.params.id
         productHelpers.updateProduct(req.params.id,req.body).then(()=>{
-          console.log('hao')
-          res.redirect('/admin/product-management')
-         
+          res.redirect('/admin/product-management')         
           if(req.files.image)
           {
             let Image = req.files.image
@@ -112,9 +101,9 @@ getDeleteProduct :(req,res)=>{
             Image2.mv('./public/product-images/'+id+2+'.jpg')
           }
 
-
         })
       },
+       
       getBlockUser : (req,res)=>{
         if(req.session.adminLoggedIn==true)
         {
@@ -124,6 +113,7 @@ getDeleteProduct :(req,res)=>{
         })
       }
       },
+
       unBlockUser : (req,res)=>{
         let userID= req.params.id
         adminHelpers.dounBlock(userID).then((response)=>{
@@ -131,6 +121,7 @@ getDeleteProduct :(req,res)=>{
         })
        
       },
+
       getCategory : (req,res)=>{
         if(req.session.adminLoggedIn)
         {
@@ -152,6 +143,7 @@ getDeleteProduct :(req,res)=>{
         }
        
       },
+
       postAdminLogin : (req, res)=>{
         adminHelpers.doLogin(req.body).then((response) => {
           if (response.status) {
@@ -169,20 +161,19 @@ getDeleteProduct :(req,res)=>{
 
       getEditCategory : async (req,res)=>{
         
-        console.log(req.params.id,"rttttt")
-
         let category =await categoryHelpers.getcategoryDetails(req.params.id)
-        console.log("full data of all categories ",category)
         res.render('admin/edit-category',{category,admin:true})
       },
+
       postEditCategory : (req,res)=>{
          let id =req.params.id
         categoryHelpers.updateCategory(req.params.id,req.body).then(()=>{
          
-          res.redirect('/admin/category-management')
+         res.redirect('/admin/category-management')
          
         })
       },
+
       getDeleteCategory : (req,res)=>{
         let categoryId = req.params.id
         categoryHelpers.deleteCategory(categoryId).then((response)=>{
@@ -218,7 +209,6 @@ getDeleteProduct :(req,res)=>{
 
       getLogout :(req,res)=>{
         req.session.destroy()
-        console.log("logouting from admin");
         res.redirect('/admin/admin-login')
       },
 
@@ -242,7 +232,6 @@ getDeleteProduct :(req,res)=>{
         if(req.session.adminLoggedIn)
         {
         let orderid = req.params.id
-        console.log("orderid to cancel",orderid);
         adminHelpers.getCancelorder(orderid).then((response)=>{
           res.redirect('/admin/order-management')
         })
@@ -264,8 +253,7 @@ getDeleteProduct :(req,res)=>{
       },
 
       deliverOrder: (req,res)=>{
-
-        
+       
         if(req.session.adminLoggedIn)
         {
           let orderid =req.params.id
@@ -295,9 +283,7 @@ getDeleteProduct :(req,res)=>{
       getCoupon: (req,res)=>{
         if(req.session.adminLoggedIn)
         {
-          adminHelpers.getCouponlist().then((coupons)=>{
-
-          
+          adminHelpers.getCouponlist().then((coupons)=>{         
           res.render('admin/coupon-management',{admin:true,coupons})
         })
         }
@@ -317,18 +303,14 @@ getDeleteProduct :(req,res)=>{
         if(req.session.adminLoggedIn)
         {
           
-         
-            // console.log("weekly sales = ",sales)
             res.render('admin/weekly-sales',{admin:true})
           }
         }
       ,
 
       postWeeklySales:async(req,res)=>{
-        console.log("data in choosing date for weekly sales",req.body)
         let orders = await adminHelpers.Orders(req.body)
         let totalSales=  await adminHelpers.weeklySales(req.body)
-        console.log("total is ",totalSales)
         res.render('admin/weekly-sales',{admin:true,orders,totalSales})
       },
 
@@ -336,13 +318,8 @@ getDeleteProduct :(req,res)=>{
         if(req.session.adminLoggedIn)
         {
           let categorySales = await adminHelpers.Categorysales()
-            console.log("category wise sales is",categorySales);
             res.render('admin/sales',{admin:true,categorySales})
-          
-          
+                    
         }
       }
-   
-    
-
     }

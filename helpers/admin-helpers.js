@@ -14,7 +14,6 @@ module.exports = {
                 .find()
                 .toArray();
             resolve(user);
-            console.log("user is" + user)
         });
     },
     doBlock: (userID) => {
@@ -46,18 +45,14 @@ module.exports = {
             let data = collection.ADMIN_COLLECTION;
             console.log(adminData);
             if (data.name == adminData.name) {
-                console.log(adminData);
                 bcrypt.compare(adminData.password, data.password).then((loggedIn) => {
-                    console.log(loggedIn, "value of logged in")
 
                     let response = {};
                     if (loggedIn) {
-                        console.log(" admin login success");
                         response.admin = data;
                         response.status = true;
                         resolve(response);
                     } else {
-                        console.log("incorrect admin password");
                         resolve({ status: false });
                     }
                 });
@@ -112,7 +107,6 @@ module.exports = {
                         status: 'shipped'
                     }
                 }).then((response) => {
-                    console.log("response after updating ordr", response);
                     resolve(response)
                 })
         })
@@ -126,7 +120,6 @@ module.exports = {
                         status: 'deliverd'
                     }
                 }).then((response) => {
-                    console.log("response after updating ordr", response);
                     resolve(response)
                 })
         })
@@ -135,8 +128,6 @@ module.exports = {
         return new Promise((resolve, reject) => {
             couponData.status = true
             db.get().collection(collection.COUPON_COLLECTION).insertOne(couponData).then((response) => {
-                console.log("responesn after adding coupon", response);
-                console.log("data.insertid", response.insertedId);
                 resolve(response)
             })
         })
@@ -169,7 +160,6 @@ module.exports = {
     getCouponlist: () => {
         return new Promise(async (resolve, reject) => {
             let coupons = await db.get().collection(collection.COUPON_COLLECTION).find().toArray()
-            console.log("listing coupons", coupons);
             resolve(coupons)
         })
     },
@@ -178,15 +168,12 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let response = {}
             response.cod = await db.get().collection(collection.ORDER_COLLECTION).find({ paymentMethod: "cash-on-delivery" }).count()
-            console.log("cout of cod", response.cod);
             response.on = await db.get().collection(collection.ORDER_COLLECTION).find({ paymentMethod: "on" }).count()
-            console.log("cout of on", response.on);
             resolve(response)
         })
     },
 
     weeklySales:(data)=>{
-        console.log("data in weekly sales",data)
         let from = data.from
         let to = data.to
         return  new Promise(async(resolve,reject)=>{
@@ -233,15 +220,11 @@ module.exports = {
             resolve(Weekly_sales[0].total)
         })
             
-        
-
     },
 
     Orders:(data)=>{
-        console.log('data is ',data)
         let from = data.from
         let to = data.to
-        console.log("from is ",from,"to is",to)
         return new Promise(async(resolve,reject)=>{
 
             let orders= await db.get().collection(collection.ORDER_COLLECTION).aggregate([{
@@ -271,9 +254,7 @@ module.exports = {
     Categorysales: () => {
         return new Promise(async (resolve, reject) => {
             let sales = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-                // Unwind the products array to get each individual product
                 { $unwind: "$products" },
-                // Look up the details of the product in the product collection
                 {
                     $lookup: {
                         from: "product",
@@ -282,9 +263,7 @@ module.exports = {
                         as: "productDetails"
                     }
                 },
-                // Unwind the productDetails array to get each individual product detail
                 { $unwind: "$productDetails" },
-                // Group the results by category and sum up the totalAmount for each category
                 {
                     $group: {
                         _id: "$productDetails.category",

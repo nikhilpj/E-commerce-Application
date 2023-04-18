@@ -26,25 +26,18 @@ module.exports = {
     {
       cartCountStatus = true
     }
-    // console.log("coupons to show in cart ", coupons);
-    // console.log(products, "products after performing aggregation")
     res.render('user/cart', { products, 'user': req.session.user._id, cartCount, totalValue, coupons,cartCountStatus })
   },
 
   getViewOrder: async (req, res) => {
 
-    // let orderCount = null
-    //orderCount =await userHelpers.getOrderCount(req.session.user._id)
-    // let product = await 
     let orders = await orderHelpers.getOrderProducts(req.session.user._id)
-    console.log(orders, "payment method to know to display orders ")
     res.render('user/view-orders', { user: req.session.user, orders })
   },
 
   getInvoice:(req,res)=>{
     let orderid = req.params.id
     let userid = req.session.user._id
-    console.log("this is orderid in view orders for downloading invoice ",orderid);
     userHelpers.downloadInvoice(orderid,userid).then(()=>{
       res.redirect('/view-orders')
     })
@@ -54,15 +47,12 @@ module.exports = {
     let orders = await orderHelpers.getOrderProducts(req.session.user._id)
 
     res.render('user/add-address', { user: req.session.user, orders })
-
-
   },
 
   postAddaddress: (req, res) => {
     console.log("user is", req.session.user._id);
     userid = req.session.user._id
     userHelpers.addAddress(req.body, userid).then(() => {
-      console.log("response after adding address");
       res.redirect('/order')
     })
   },
@@ -70,9 +60,7 @@ module.exports = {
   getDeleteAddress:(req,res)=>{
     let userid = req.session.user._id
  let addressId = req.params.id
- console.log("this is the  id of address to delete ",addressId)
  orderHelpers.deleteAddress(addressId,userid).then(()=>{
-  console.log("after deleting address ")
   res.redirect('/order')
  })
   },
@@ -80,7 +68,6 @@ module.exports = {
 
   getOrder: async (req, res) => {
     let user = await userHelpers.getUser(req.session.user._id)
-    // console.log("user data in order page ",user);
     let total = await cartHelpers.getTotalAmount(req.session.user._id)
     if(user.coupon_status)
     {
@@ -100,24 +87,18 @@ module.exports = {
     if (user.coupon_status == true) {
       let couponData = await orderHelpers.getCoupondata(user.coupon_id)
       totalPrice = totalPrice - (totalPrice * couponData.value) / 100
-      console.log("discount amount ", totalPrice);
-
-      console.log("coupon of user", user);
       if(req.body['payment-method']=='cash-on-delivery')
       {
       orderHelpers.postApplycoupon(userid)
       }
     }
     if (req.body['payment-method'] !== 'cash-on-delivery') {
-      console.log("payment method is not cod so storing order data in session");
       req.session.order = req.body
-      // console.log("this is session data of order", req.session.order);
     }
 
     orderHelpers.placeOrder(req.body, products, totalPrice, req.session.order).then((response) => {
       if (req.body['payment-method'] === 'cash-on-delivery') {
         res.json({ status: true })
-        console.log("payment method cod");
       }
       else {
         res.json({ status: false })
@@ -245,17 +226,15 @@ module.exports = {
 
   },
   getChangeProductQuantity: (req, res) => {
-    console.log(req.body, "req.body of change product quantity");
+    
     cartHelpers.changeProductQuantity(req.body).then(async (response) => {
       response.total = await cartHelpers.getTotalAmount(req.body.user)
-      console.log("response in usercontroller",response);
       res.json(response)
     })
   },
 
   getApplyAddress:(req,res)=>{
     let id = req.params.id
-    console.log(id,"id of address");
     orderHelpers.applyAddress(req,id).then(()=>{
       res.redirect('/order')
     }).catch((e)=>{
@@ -264,10 +243,8 @@ module.exports = {
   },
 
   getChangewishquantity: (req, res) => {
-    console.log(req.body, "req.body of change wishlist quantity");
     userHelpers.changeQuantitywish(req.body).then(async (response) => {
       response.total = await userHelpers.getTotalAmount(req.body.user)
-      console.log("response after change quantity wish", response);
       res.json(response)
     })
   },
@@ -288,13 +265,8 @@ module.exports = {
 
   postPhone: (req, res) => {
     userHelpers.verifyPhone(req.body).then((response) => {
-      // let result = response
       req.session.phone= req.body
-      
       if (response.status) {
-
-        console.log('user exists ,redirecting to otp page')
-        console.log("user data passed to otp page ", response);
         req.session.data = response.user
         res.redirect('/otp')
       }
@@ -309,15 +281,10 @@ module.exports = {
   },
   postOtp: (req, res) => {
 
-    console.log("hey bro how are you");
-    console.log("contains data of user");
     userHelpers.verifyOtp(req.body,req.session.phone).then((response) => {
-      console.log(response, "haha");
       if (response.status == 'approved') {
         req.session.loggedIn = true
         req.session.user = req.session.data
-        console.log("login success");
-
         res.redirect('/')
       }
       else {
@@ -337,12 +304,8 @@ module.exports = {
   },
 
   applycoupon: async (req, res) => {
-    // console.log(
-    //   'sdfhdskjfgdskjfgdskgfksgfskjgfsjgfskjfgskfgskgfskgfksfhsdkgfskfgskfgskgfskfgkfgsk');
-    console.log("id: " + req.params.id);
-    console.log("user data ", req.session.user._id);
+ 
     cartCount = await cartHelpers.getCartCount(req.session.user._id)
-
     let products = await cartHelpers.getCartProducts(req.session.user._id)
     let totalValue = await cartHelpers.getTotalAmount(req.session.user._id)
     let couponData = await orderHelpers.getCoupondata(req.params.id)
@@ -350,20 +313,13 @@ module.exports = {
     totalValue = totalValue - discountValue
     let couponid = req.params.id
     cartHelpers.getApplyCoupon(couponid, req.session.user._id).then(() => {
-      
-      console.log("redirecting to cart after inserting coupon in user colleciton");
-      
       res.render('user/cart',{totalValue,products,cartCount,discountValue,'user': req.session.user._id})
     })
-    // let total = await userHelpers.getTotalAmount(req.session.user._id)
-    // console.log("total from applycoupon",total);
 
   },
 
   getAddtoWishlist: (req, res) => {
-    console.log("to knoe detail of products", req.params.id);
     userHelpers.addTowishlist(req.params.id, req.session.user._id).then(() => {
-
       res.redirect('/')
     })
   },
@@ -374,20 +330,12 @@ module.exports = {
     wishCount = await userHelpers.getwishCount(req.session.user._id)
 
     let products = await userHelpers.getwishlistProducts(req.session.user._id)
-
-    // let totalValue = await userHelpers.getTotalAmount(req.session.user._id)
-    // let coupons = await userHelpers.getAllcoupon()
-    // console.log("coupons to show in cart ", coupons);
-    console.log(products, "products to show in wishlist")
-    console.log("length of products in wishlist ", products.length);
     res.render('user/wishlist', { wishCount, products, 'user': req.session.user._id })
   },
   
 
   getDeletewishProduct: (req, res) => {
     let proId = req.params.id
-    console.log(req.params.id, "this is req.params.id from getdeletewishproduct")
-    console.log("this is req.session.user._id", req.session.user._id)
     userHelpers.deleteWishProduct(proId, req.session.user._id).then((response) => {
       res.redirect('/wishlist')
     })
@@ -395,15 +343,12 @@ module.exports = {
   },
 
   getsearch: (req, res) => {
-    console.log("req.body of search", req.body.search);
     productHelpers.searchproducts(req.body.search).then((products) => {
-      console.log("respnsonse of search ", products);
       res.render('user/main', { products })
     })
   },
 
   getCategoryfilter:(req,res)=>{
-    console.log("this is the id of category",req.params.id);
     let id = req.params.id
     categoryHelpers.CategoryFilter(id).then((products)=>{
       res.render('user/main',{products,'user': req.session.user._id})
@@ -412,15 +357,12 @@ module.exports = {
   },
 
   pay: (req, res) => {
-    console.log("session data in payment ", req.session);
     let userid = req.session.user._id
     res.render('user/pay', { 'user': req.session.user._id })
   },
 
   postpay: async (req, res) => {
 
-    // let orders = await userHelpers.getOrderProducts(req.session.user._id)
-    // console.log("orders in payment ",orders);
     let userName = req.session.user.firstname
 
     const create_payment_json = {
@@ -469,8 +411,6 @@ module.exports = {
   successpay: (req, res) => {
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
-    console.log("session data in successpay",req.session)
-
 
     const execute_payment_json = {
       "payer_id": payerId,
@@ -493,8 +433,6 @@ module.exports = {
           cartHelpers.getTotalAmountPaypal(req.session.user._id).then((totalPrice) => {
  
             orderHelpers.placePaypal(req, products, totalPrice).then(() => {
-              // res.send('Success');
-              // console.log("productarr is ",productArr);
              
               res.render('user/success')
             }).catch((e) => {
@@ -509,8 +447,5 @@ module.exports = {
       }
     });
   }
-
-
-
 
 }

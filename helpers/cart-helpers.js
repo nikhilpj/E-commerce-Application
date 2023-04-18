@@ -45,23 +45,8 @@ module.exports={
                         item: 1, quantity: 1, product: { $arrayElemAt: ['$product', 0] }
                     }
                 }
-                // {
-                //     $lookup: {
-                //         from: collection.PRODUCT_COLLECTION,
-                //         let: { proList: '$products' },
-                //         pipeline: [{
-                //             $match: {
-                //                 $expr: {
-                //                     $in: ['$_id', '$$proList']
-                //                 }
-                //             }
-                //         }],
-                //         as: 'cartItems'
-
-                //     }
-                // }
+              
             ]).toArray()
-            //console.log(cartItems[0].products, '@@@@@')
             resolve(cartItems)
 
         })
@@ -163,11 +148,9 @@ module.exports={
             if (total[0]) {
 
                 let user = await db.get().collection(collection.USER_COLLECTION).findOne({_id:ObjectId(userId)})
-                console.log("user data in gettotalamountpaypal ",user)
                 if(user.coupon_status)
                 {
                     let coupon = await db.get().collection(collection.COUPON_COLLECTION).findOne({ _id: ObjectId(user.coupon_id) })
-                    console.log("coupon details in placepaypal to know its value",coupon)
                     total[0].total = total[0].total - (total[0].total * coupon.value)/100
                 }
                 
@@ -195,12 +178,8 @@ module.exports={
             item: ObjectId(proId),
             quantity: 1
         }
-        console.log(proObj, 'this is prod uct object in add to cart');
-        console.log(userId, 'this is usserid');
         return new Promise(async (resolve, reject) => {
-            console.log("fahiz");
             let userCart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userId) })
-            console.log(userCart, '$$$$$');
             if (userCart) {
                 let proExist = userCart.products.findIndex(products => products.item == proId)
                 console.log(proExist)
@@ -230,7 +209,6 @@ module.exports={
                 }
             }
             else {
-                console.log("hiiiii");
                 let cartObj = {
                     user: ObjectId(userId),
                     products: [proObj]
@@ -250,7 +228,6 @@ module.exports={
 
     deleteCartProduct: (proId, userId) => {
         return new Promise((resolve, reject) => {
-            console.log("for deleting product in cart")
             db.get().collection(collection.CART_COLLECTION).updateOne({ user: ObjectId(userId) }, { $pull: { products: { item: ObjectId(proId) } } }).then((response) => {
                 console.log(response);
                 resolve(response);
@@ -261,7 +238,6 @@ module.exports={
     },
 
     changeProductQuantity: (details) => {
-        console.log("details in cart to change stock", details);
         details.count = parseInt(details.count)
         details.quantity = parseInt(details.quantity)
 
@@ -274,7 +250,6 @@ module.exports={
                         $pull: { products: { item: ObjectId(details.product) } }
                     }
                 ).then((response) => {
-                    console.log("response to removeproduct", response);
                     resolve({ removeProduct: true })
                 })
                 db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: ObjectId(details.product) }, {
@@ -285,7 +260,7 @@ module.exports={
 
             } else {
                 let verifyStock =await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: ObjectId(details.product) })
-                console.log("verifystock = ",verifyStock);
+                
                 if(verifyStock.stock==0 && details.count==1)
                 {
                     console.log("stock empty");
@@ -335,7 +310,6 @@ module.exports={
                         coupon_status: true
                     }
                 }).then((response) => {
-                    console.log("response after inserting coupon in user", response);
 
                     resolve(response)
                 })
@@ -348,7 +322,6 @@ module.exports={
     getCarProductList: (userId) => {
         return new Promise(async (resolve, reject) => {
             let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userId) })
-            console.log("cart.products to move products in cart", cart.products);
             resolve(cart.products)
 
         })

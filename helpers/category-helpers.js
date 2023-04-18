@@ -7,11 +7,9 @@ module.exports ={
     
     addCategory : (category)=>{
         return new Promise((resolve,reject)=>{
-            console.log("this is data in req.body of category field",category)
             let status = db.get().collection(collection.CATEGORY_MANAGEMENT).findOne({category:category})
             if(status)
             {
-                console.log("category exists already");
                 resolve()
             }
             else
@@ -20,9 +18,7 @@ module.exports ={
             
                     resolve(data.insertedId)
             })
-            }
-        
-       
+            }      
         })
     },
 
@@ -41,7 +37,6 @@ module.exports ={
     },
 
   
-
     getcategoryDetails:(categoryId)=>{
         return new Promise((resolve,reject)=>{
             db.get().collection(collection.CATEGORY_MANAGEMENT).findOne({_id: ObjectId(categoryId)}).then((category)=>{
@@ -57,8 +52,7 @@ module.exports ={
              $set:{
                 
                 category: categoryDetails.category,
-               
-    
+                 
              }   
             }).then((response)=>{
                 resolve()
@@ -70,9 +64,7 @@ module.exports ={
     CategoryFilter: (id) => {
         return new Promise(async (resolve, reject) => {
             let category = await db.get().collection(collection.CATEGORY_MANAGEMENT).findOne({ _id: ObjectId(id) })
-            console.log("details of category to apply filter", category);
             let categoryname = category.category
-            console.log("category name ", categoryname);
             let products = db.get().collection(collection.PRODUCT_COLLECTION).find({ category: categoryname }).toArray()
             resolve(products)
         })

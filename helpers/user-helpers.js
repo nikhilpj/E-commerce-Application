@@ -7,12 +7,8 @@ const { log } = require('handlebars');
 // const { serviceSid } = require('../config/collection');
 // const { accountSid, authToken } = require('../config/collection');
 const serviceSid =process.env.serviceSid 
-
 const accountSid = process.env.accountSid
 const authToken = process.env.authToken
-console.log(serviceSid,"this is servicesid");
-console.log(accountSid,"this is accountsid");
-console.log(authToken,"this is authtoken")
 
 const { resolve } = require('path');
 const { error } = require('console');
@@ -30,13 +26,9 @@ module.exports = {
             let verify = await db.get().collection(collection.USER_COLLECTION).findOne({ email: userData.email })
             console.log("this is verify", verify);
             if (verify) {
-                console.log("user with same email exists");
                 userData.usrstatus = false
-
-                // resolve(userData.usrstatus)
             }
             else {
-
 
                 userData.password = await bcrypt.hash(userData.password, 10)
                 userData.usrstatus = true
@@ -57,15 +49,13 @@ module.exports = {
                 if (user.usrstatus) {
                     bcrypt.compare(userData.password, user.password).then((result) => {
                         if (result) {
-                            console.log('login success')
                             response.user = user
                             response.status = true
                             resolve(response)
                         }
 
-
                         else {
-                            console.log('login failed password incorrect')
+                            
                             response.status = false;
                             resolve(response)
                         }
@@ -85,8 +75,6 @@ module.exports = {
 
             const currentDate = new Date();
             const addressId = currentDate.getTime().toString();
-            console.log("unique id of address", addressId);
-            console.log("addres to add", addressdetail);
             let addresslist = {
                 country: addressdetail.country_name,
                 address: addressdetail.address,
@@ -94,7 +82,6 @@ module.exports = {
                 Id: addressId,
                 status: false
             }
-            console.log("user is", userid);
             let addr = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: ObjectId(userid) })
 
             db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userid) },
@@ -105,37 +92,19 @@ module.exports = {
                 resolve()
             })
 
-            // else {
-            //     db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(req.session.user._id) },
-            //         {
-            //             $set: { address: [addressdetail] }
-            //         }
-            //     ).then(() => {
-            //         resolve()
-            //     })
-            // }
 
         })
     },
 
 
-
-   
-
     moveToCart: (proId, userId) => {
 
-        console.log("inside function to delete wishlist");
-        console.log("749278028475847582798472098");
         let proObj = {
             item: ObjectId(proId),
             quantity: 1
         }
-        // console.log(proObj, ' #####');
-        // console.log(userId, '**');
         return new Promise(async (resolve, reject) => {
-            // console.log("fahiz");
             let userCart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userId) })
-            // console.log(userCart, '$$$$$');
             if (userCart) {
                 let proExist = userCart.products.findIndex(products => products.item == proId)
                 console.log(proExist)
@@ -159,15 +128,13 @@ module.exports = {
                 }
             }
             else {
-                // console.log("hiiiii");
                 let cartObj = {
                     user: ObjectId(userId),
                     products: [proObj]
                 }
 
                 db.get().collection(collection.CART_COLLECTION).insertOne(cartObj).then((response) => {
-                    console.log("deleting products from wsihlist");
-
+ 
                     resolve()
                 })
 
@@ -221,12 +188,10 @@ module.exports = {
     getwishProductList: (userId) => {
         return new Promise(async (resolve, reject) => {
             let wish = await db.get().collection(collection.WISHLIST_COLLECTION).findOne({ user: ObjectId(userId) })
-            console.log("wishlist.products to move products in cart", wish.products);
             resolve(wish.products)
 
         })
     },
-
 
 
     verifyPhone: (userData) => {
@@ -234,7 +199,6 @@ module.exports = {
             let response = {}
         
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ phone: userData.phone })
-            console.log("this is user to verify phone ", user);
             if (user) {
                 client.verify.v2
                     .services(serviceSid)
@@ -256,10 +220,8 @@ module.exports = {
     verifyOtp: (userData,Phone) => {
         return new Promise((resolve, reject) => {
             let otpCode = userData.otp
-            console.log("this is phone number in verify otp",Phone)
             let response = {}
-            console.log("this is the otp", otpCode);
-
+           
             client.verify.v2
                 .services(serviceSid)
                 .verificationChecks.create({ to: `+91${Phone.phone}`, code: otpCode })
@@ -269,14 +231,11 @@ module.exports = {
                     response.status = verification_check.status
                     resolve(response)
                 })
-            // console.log("response.status after",response.status);
-            // resolve(response)
-
+            
         })
 
     },
 
- 
 
     getUser: (userid) => {
         return new Promise(async (resolve, reject) => {
@@ -293,15 +252,10 @@ module.exports = {
             item: ObjectId(proId),
             quantity: 1
         }
-        console.log(proObj, ' addwish');
-        console.log(userId, '**');
         return new Promise(async (resolve, reject) => {
-            console.log("jkk");
             let userwishlist = await db.get().collection(collection.WISHLIST_COLLECTION).findOne({ user: ObjectId(userId) })
-            console.log(userwishlist, '....');
             if (userwishlist) {
                 let proExist = userwishlist.products.findIndex(products => products.item == proId)
-                console.log(proExist)
                 if (proExist != -1) {
                     db.get().collection(collection.WISHLIST_COLLECTION).updateOne({ user: ObjectId(userId), 'products.item': ObjectId(proId) },
                         {
@@ -322,7 +276,6 @@ module.exports = {
                 }
             }
             else {
-                console.log("hwuuu");
                 let wishObj = {
                     user: ObjectId(userId),
                     products: [proObj]
@@ -350,12 +303,8 @@ module.exports = {
     getAllcatergories: () => {
         return new Promise(async (resolve, reject) => {
             try {
-
-
                 let categories = await db.get().collection(collection.CATEGORY_MANAGEMENT).find({}).toArray()
                 resolve(categories)
-
-
             } catch (e) {
                 console.log("error is ", e);
                 reject(e)
@@ -393,7 +342,6 @@ module.exports = {
                 }
               
             ]).toArray()
-            //console.log(cartItems[0].products, '@@@@@')
             resolve(wishItems)
 
         })
@@ -402,15 +350,11 @@ module.exports = {
 
     deleteWishProduct: (proId, userId) => {
         return new Promise((resolve, reject) => {
-            console.log("for deleting product in wishlist")
             db.get().collection(collection.WISHLIST_COLLECTION).updateOne({ user: ObjectId(userId) }, { $pull: { products: { item: ObjectId(proId) } } }).then((response) => {
                 console.log(response);
                 resolve(response);
             })
         })
 
-
     },
-
-
 }

@@ -6,7 +6,6 @@ const { ObjectId } = require("mongodb");
 var objectId = require("mongodb").ObjectID;
 module.exports = {
   addProduct: (product, callback) => {
-    console.log(product.stock, "is the stock of product added ");
     product.stock = parseInt(product.stock);
     db.get()
       .collection("product")
@@ -78,14 +77,11 @@ module.exports = {
         db.get()
           .collection(collection.PRODUCT_COLLECTION)
           .createIndex({ name: "text" });
-        // // await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
         let products = await db
           .get()
           .collection(collection.PRODUCT_COLLECTION)
           .find({ $text: { $search: input } })
           .toArray();
-        // let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({name:input}).toArray()
-        console.log("search result of ", input, " is ", products);
         resolve(products);
       } catch (e) {
         console.log("error is", e);

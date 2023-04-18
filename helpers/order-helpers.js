@@ -27,18 +27,14 @@ module.exports={
                         coupon_status: 1
                     }
                 })
-            console.log("deleting coupon from user collection");
 
         })
-
-
 
     },
 
     placeOrder: (order, products, total) => {
 
         return new Promise((resolve, reject) => {
-            // console.log(order, products, total, 'to place order');
             let status = order['payment-method'] === "cash-on-delivery" ? "placed" : "pending"
             let orderObj = {
                 deliveryDetails: {
@@ -53,22 +49,14 @@ module.exports={
                 status: status,
                 date: new Date().toISOString().slice(0, 10)
             }
-            console.log("product details to show in order", orderObj.products);
             if (status == 'placed') {
                 db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
                     db.get().collection(collection.CART_COLLECTION).deleteOne({ user: ObjectId(order.userId) })
-                    // console.log(orderObj, "this is orderobj")
-                    console.log("response value after order");
-                    // console.log("response in ajax ", response)
                     resolve(response)
                 })
 
-
             }
             else {
-                // console.log("storing order data in session");
-                // request.session.order = orderObj
-                // console.log("session object for order",request.session.order);
                 resolve(response)
             }
         })
@@ -86,8 +74,6 @@ module.exports={
                     date:-1
                 }
             }]).toArray()
-           
-            console.log("view orders after aggregating and sorting",orders);
 
             for (let order of orders) {
                 let products = []
@@ -97,7 +83,6 @@ module.exports={
                 }
                 order.products = products
             }
-            // console.log("this is aggregating order cart to display ", orders);
             resolve(orders)
         })
     },
@@ -119,7 +104,6 @@ module.exports={
 
 
     placePaypal: (req, products, total) => {
-        console.log("pincode inside placepaypal", req.session.order.post);
         let productArr=[]
         return new Promise(async(resolve, reject) => {
 
@@ -140,11 +124,9 @@ module.exports={
             for(let item of orderObj.products)
             {
                 let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id:ObjectId(item.item)})
-                console.log("products in array",product);
                 productArr.push({name:product.name,quantity:item.quantity})
         
             }
-            // console.log("data in productarr",productArr);
             let user= await db.get().collection(collection.USER_COLLECTION).findOne({_id:ObjectId(orderObj.userId)})
             if(user.coupon_status)
             {
@@ -159,9 +141,6 @@ module.exports={
 
             db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then(() => {
                 db.get().collection(collection.CART_COLLECTION).deleteOne({ user: ObjectId(req.session.order.userId) })
-                console.log(orderObj, "this is orderobj in paypal")
-                console.log("response value after order");
-                console.log("response in ajax ", response)
                 resolve()
             }).catch((error) => {
                 reject(error)
