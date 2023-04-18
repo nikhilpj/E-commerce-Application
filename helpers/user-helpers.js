@@ -4,8 +4,6 @@ const bcrypt = require('bcrypt');
 require('dotenv').config()
 const { response } = require('express');
 const { log } = require('handlebars');
-// const { serviceSid } = require('../config/collection');
-// const { accountSid, authToken } = require('../config/collection');
 const serviceSid =process.env.serviceSid 
 const accountSid = process.env.accountSid
 const authToken = process.env.authToken
